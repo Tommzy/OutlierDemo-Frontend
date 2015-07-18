@@ -1,0 +1,104 @@
+<!DOCTYPE  html>
+<html lang="en" ng-app="indexApp">
+
+<style>
+    body {
+        font: 11px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .dot {
+        stroke: #000;
+    }
+
+    .tooltip {
+        background-color: #269abc;
+        color: #dff0d8;
+        position: absolute;
+        width: 100px;
+        height: 28px;
+        pointer-events: none;
+    }
+</style>
+
+<head>
+    <title>ONION</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="resources/lib/bootstrap.min.css"/>
+    <script src="resources/lib/angular.js"></script>
+    <script src="resources/lib/functions.js"></script>
+    <script src="resources/lib/ui-bootstrap-tpls-0.13.0.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <!--<script src="resources/lib/d3functions.js"></script>-->
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Outlier Analytics Research</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="#"><b>Home</b></a></li>
+                <li class="active"><a href="#"><b>Outlier Exploration Operations</b></a></li>
+                <li><a href="#"><b>Wiki</b></a></li>
+                <li><a href="#"><b>About us</b></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="jumbotron" ng-controller="TabCtrl">
+        <tabset>
+            <tab heading="Outlier Detection">
+                <div class="container">
+                    <div class="col-md-6" ng-controller="getKRValue">
+                        <div class="row-fluid">
+                            <br><br><br><br><br><br><br><br><br>
+                            <p>K Value: </p>
+                            {{kvalue}}
+                            <input class="span3" name="kvaluerange" type="range" min="1" max="10" ng-model="kvalue" ng-mouseup="updateKRValue()">
+                            <br>
+                            <p>R Value: </p>
+                            {{rvalue}}
+                            <input class="span3" name="rvaluerange" type="range" min="1" max="10000" ng-model="rvalue" ng-mouseup="updateKRValue()">
+                        </div>
+                    </div>
+                    <dataplane class="col-md-6"></dataplane>
+                </div>
+            </tab>
+            <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
+                {{tab.content}}
+            </tab>
+        </tabset>
+    </div>
+    <!--<div class="row">-->
+    <!--<div class="col-md-4">-->
+    <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+    <!--<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+    <!--<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>-->
+    <!--</div>-->
+    <!--<div class="clearfix visible-lg"></div>-->
+    <!--</div>-->
+</div>
+
+</body>
+</html>
