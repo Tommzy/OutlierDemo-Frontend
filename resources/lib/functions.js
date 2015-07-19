@@ -76,6 +76,22 @@
                 yMap = function(d) { return yScale(yValue(d));}, // data -> display
                 yAxis = d3.svg.axis().scale(yScale).orient("left");
 
+            // setup zoom
+            var zoom = d3.behavior.zoom()
+                .scaleExtent([1,10])
+                .on("zoom", zoomed);
+
+            // setup zoomed function
+            function zoomed() {
+
+                svg.select(".x.axis").call(xAxis);
+                svg.select(".y.axis").call(yAxis);
+
+                svg.selectAll('.dataPoint')
+                    .attr("cx", function(d, i) { return xMap(d); })
+                    .attr("cy", function(d, i) { return yMap(d); });
+            }
+
             // setup fill color
             var cValue = function(d) { return d.type;},
                 color = d3.scale.category10();
@@ -85,7 +101,14 @@
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .call(zoom);
+
+                svg.append("clipPath")
+                .attr("id", "clip")
+                .append("rect")
+                .attr("width", width)
+                .attr("height", height);
 
             // add the tooltip area to the webpage
             var tooltip = d3.select(element[0]).append("div")
@@ -142,6 +165,8 @@
                     .attr("cx", xMap)
                     .attr("cy", yMap)
                     .style("fill", function(d) { return color(cValue(d));})
+                    .classed('dataPoint', true)
+                    .attr("clipPath", "url(#clip")
                     .on("mouseover", function(d) {
                         tooltip.transition()
                             .duration(200)
