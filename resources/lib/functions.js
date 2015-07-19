@@ -65,13 +65,13 @@
              * axis - sets up axis
              */
             // setup x
-            var xValue = function(d) { return d.point.lon;}, // data -> value
+            var xValue = function(d) { return d.dataset.point.lon;}, // data -> value
                 xScale = d3.scale.linear().range([0, width]), // value -> display
                 xMap = function(d) { return xScale(xValue(d));}, // data -> display
                 xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
             // setup y
-            var yValue = function(d) { return d.point.lat;}, // data -> value
+            var yValue = function(d) { return d.dataset.point.lat;}, // data -> value
                 yScale = d3.scale.linear().range([height, 0]), // value -> display
                 yMap = function(d) { return yScale(yValue(d));}, // data -> display
                 yAxis = d3.svg.axis().scale(yScale).orient("left");
@@ -116,17 +116,18 @@
                 .style("opacity", 0);
 
             // load data
-            d3.json("resources/lib/data.json", function(error, data) {
+            d3.json("resources/lib/FakeData.json", function(error, data) {
 
                 data.forEach(function(subdata){
                     // change string (from CSV) into number format
-                    subdata.forEach(function(element){
+                    subdata.dataSet.forEach(function(element){
                         element.point.lat= +element.point.lat;
                         element.point.lon = +element.point.lon;
                         element.point.id=+element.point.id;
                         //    console.log(d);
                     });
                 });
+
                 console.log("Finish loading data plane values");
 
                 xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
