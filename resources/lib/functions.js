@@ -38,12 +38,12 @@
         $scope.updateKRValue=function(){
             console.log('range value has changed to :'+'K:'+$scope.kvalue+'R:'+$scope.rvalue);
             $http.get('http://localhost:8080/method1?k='+$scope.kvalue+'&r='+$scope.rvalue).
-                        success(function(data) {
-                            $scope.kvalue = data;
-                        }).
-                        error(function(data) {
-                            $scope.rvalue =data;
-                        });
+                success(function(data) {
+                    $scope.kvalue = data;
+                }).
+                error(function(data) {
+                    $scope.rvalue =data;
+                });
         }
 
     });
@@ -64,15 +64,14 @@
              * map function - maps from data value to display value
              * axis - sets up axis
              */
-
             // setup x
-            var xValue = function(d) { return d.x;}, // data -> value
+            var xValue = function(d) { return d.point.lon;}, // data -> value
                 xScale = d3.scale.linear().range([0, width]), // value -> display
                 xMap = function(d) { return xScale(xValue(d));}, // data -> display
                 xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
             // setup y
-            var yValue = function(d) { return d["y"];}, // data -> value
+            var yValue = function(d) { return d.point.lat;}, // data -> value
                 yScale = d3.scale.linear().range([height, 0]), // value -> display
                 yMap = function(d) { return yScale(yValue(d));}, // data -> display
                 yAxis = d3.svg.axis().scale(yScale).orient("left");
@@ -94,14 +93,18 @@
                 .style("opacity", 0);
 
             // load data
-            d3.csv("resources/lib/data.csv", function(error, data) {
+            d3.json("resources/lib/data.json", function(error, data) {
 
-                // change string (from CSV) into number format
-                data.forEach(function(d) {
-                    d.x = +d.x;
-                    d["y"] = +d["y"];
-                    //    console.log(d);
+                data.forEach(function(subdata){
+                    // change string (from CSV) into number format
+                    subdata.forEach(function(element){
+                        element.point.lat= +element.point.lat;
+                        element.point.lon = +element.point.lon;
+                        element.point.id=+element.point.id;
+                        //    console.log(d);
+                    });
                 });
+                console.log("Finish loading data plane values");
 
                 xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
                 yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
@@ -143,7 +146,7 @@
                         tooltip.transition()
                             .duration(200)
                             .style("opacity", 1.4);
-                        tooltip.html("ID: "+d["id"] + "<br/> (" + xValue(d)
+                        tooltip.html("ID: "+ d.point.id + "<br/> (" + xValue(d)
                             + ", " + yValue(d) + ")")
                             .style("left", (d3.event.layerX + 5) + "px")
                             .style("top", (d3.event.layerY - 28) + "px");
@@ -176,6 +179,8 @@
                 //    .attr("dy", ".35em")
                 //    .style("text-anchor", "end")
                 //    .text(function(d) { return d;})
+
+
             });
 
         }
