@@ -128,6 +128,8 @@
                     });
                 });
 
+                zoom.x(x).y(y);
+
                 console.log("Finish loading data plane values");
 
                 xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
