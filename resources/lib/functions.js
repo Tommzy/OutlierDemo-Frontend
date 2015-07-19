@@ -128,7 +128,7 @@
                     });
                 });
 
-                zoom.x(x).y(y);
+                zoom.x(xScale).y(yScale);
 
                 console.log("Finish loading data plane values");
 
