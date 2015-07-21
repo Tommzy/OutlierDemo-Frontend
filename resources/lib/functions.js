@@ -38,49 +38,71 @@
     indexApp.controller('getKRValue',function($scope,$http){
         $scope.kvalue=5;
         $scope.rvalue=5000;
+        $scope.oldK=0;
+        $scope.oldR=0;
         $scope.updateKRValue=function(){
             console.log('range value has changed to :'+'K:'+$scope.kvalue+'R:'+$scope.rvalue);
-            $http.get('http://localhost:8080/method1?k='+$scope.kvalue+'&r='+$scope.rvalue).
-                success(function(data) {
-                    //reset current outliers
-                    d3.selectAll('.outlier')
-                        .classed('outlier', false);
-                    //mark outliers
-                    simpleJSONStream.forEach(function(element){
-                        var sPoint = d3.select('#id'+element.id.toString());
-                        if(sPoint){
-                            console.log(sPoint.data()[0].point.id);
-                            sPoint.classed('outlier', true);
-                            console.log(sPoint.classed('outlier'));
-                        }
-                    }); 
-                }).
-                error(function(data) {
-                    // d3.selectAll('.dataPoint')
-                    // .style('fill',function(d) {
-                    //                 return (d.distanceList[$scope.kvalue-1] > +$scope.rvalue)
-                    //                         ? 'red' : '#1f77b4';});
-                    console.log("Fail getting outlier data");
+            if($scope.rvalue===$scope.oldR && $scope.kvalue===$scope.oldK){
+                console.log('K and R are the same as previous request');
+            }
+            else{
+                $http.get('http://localhost:8080/method1?k='+$scope.kvalue+'&r='+$scope.rvalue).
+                    success(function(data) {
+                        //reset current outliers
+                        d3.selectAll('.outlier')
+                            .classed('outlier', false);
+                        //mark outliers
+                        data.forEach(function(element){
+                            var sPoint = d3.select('#id'+element.id.toString());
+                            if(sPoint){
+                                console.log(sPoint.data()[0].point.id);
+                                sPoint.classed('outlier', true);
+                                console.log(sPoint.classed('outlier'));
+                            }
+                        }); 
+                    }).
+                    error(function(data) {
+                        // d3.selectAll('.dataPoint')
+                        // .style('fill',function(d) {
+                        //                 return (d.distanceList[$scope.kvalue-1] > +$scope.rvalue)
+                        //                         ? 'red' : '#1f77b4';});
+                        console.log("Fail getting outlier data");
 
-                    //var dataPoint = d3.selectAll('.dataPoint');
-                    //var hashtable = {};
-                    //simpleJSONStream.forEach(function(element){
-                    //     var key  = element.id.toString();
-                    //    hashtable[key]=true;
-                    //});
-                    //console.log(hashtable);
-                    //dataPoint.style('fill',function(d){
-                    //    key = d.point.id.toString();
-                    //    var outlier = key in hashtable;
-                    //    if(outlier){
-                    //        console.log('outlier');
-                    //    }
-                    //    return outlier ? 'red':'#1F77B4';
-                    //});
-                });
+                        //var dataPoint = d3.selectAll('.dataPoint');
+                        //var hashtable = {};
+                        //simpleJSONStream.forEach(function(element){
+                        //     var key  = element.id.toString();
+                        //    hashtable[key]=true;
+                        //});
+                        //console.log(hashtable);
+                        //dataPoint.style('fill',function(d){
+                        //    key = d.point.id.toString();
+                        //    var outlier = key in hashtable;
+                        //    if(outlier){
+                        //        console.log('outlier');
+                        //    }
+                        //    return outlier ? 'red':'#1F77B4';
+                        //});
+                    });
+                }
+            $scope.oldK=$scope.kvalue;
+            $scope.oldR=$scope.rvalue;
 
             };
         });
+    indexApp.directive('stringToNumber', function() {
+        return {
+            require: 'ngModel',
+            link: function(scope, element, attrs, ngModel) {
+                ngModel.$parsers.push(function(value) {
+                    return '' + value;
+                });
+                ngModel.$formatters.push(function(value) {
+                    return parseFloat(value, 10);
+                });
+            }   
+        };
+    });
 
     indexApp.directive('dataplane',function(){
         function link(scope,element,attr){
