@@ -27,11 +27,14 @@
     //     d3.json('plane_data.json',function(err,data){
     //         if(err){
     //             throw err;
-    //         }
+    //         }s
     //         $scope.data=data;
     //         $scope.$apply();
     //     });
     // });
+
+    var simpleJSONStream = [{"id":32041},{"id":38757},{"id":38756},{"id":32077},{"id":32227},{"id":32229},{"id":32232},{"id":32235},{"id":32296},{"id":32303},{"id":32305},{"id":32387},{"id":32469},{"id":32470},{"id":32507},{"id":32508},{"id":32514},{"id":32515},{"id":32521},{"id":32522},{"id":32523},{"id":32529},{"id":32530},{"id":32554},{"id":32560},{"id":32561},{"id":32715},{"id":32721},{"id":32722},{"id":32804},{"id":32819},{"id":32826},{"id":32825},{"id":15595},{"id":15579},{"id":23337}];
+
     indexApp.controller('getKRValue',function($scope,$http){
         $scope.kvalue=5;
         $scope.rvalue=5000;
@@ -40,20 +43,46 @@
             $http.get('http://localhost:8080/method1?k='+$scope.kvalue+'&r='+$scope.rvalue).
                 success(function(data) {
                     var dataPoint = d3.selectAll('.dataPoint');
-                    dataPoint.filter(function(d){
-                        return data.indexOf({'id': d.id}) > -1;
-                    })
-                    .style('fill', 'red');
+                    var hashtable = {};
+                    data.forEach(function(element){
+                         var key  = element.id.toString();
+                        hashtable[key]=true;
+                    });
+                    console.log(hashtable);
+                    dataPoint.style('fill',function(d){
+                        key = d.point.id.toString();
+                        var outlier = key in hashtable;
+                        if(outlier){
+                            console.log('outlier');
+                        }
+                        return outlier ? 'red':'#1F77B4';    
+                    });
                 }).
                 error(function(data) {
-                    d3.selectAll('.dataPoint')
-                    .style('fill',function(d) {
-                                    return (d.distanceList[$scope.kvalue-1] > +$scope.rvalue)
-                                            ? 'red' : '#1f77b4';});
-                });
-        }
+                    // d3.selectAll('.dataPoint')
+                    // .style('fill',function(d) {
+                    //                 return (d.distanceList[$scope.kvalue-1] > +$scope.rvalue)
+                    //                         ? 'red' : '#1f77b4';});
 
-    });
+                    var dataPoint = d3.selectAll('.dataPoint');
+                    var hashtable = {};
+                    simpleJSONStream.forEach(function(element){
+                         var key  = element.id.toString();
+                        hashtable[key]=true;
+                    });
+                    console.log(hashtable);
+                    dataPoint.style('fill',function(d){
+                        key = d.point.id.toString();
+                        var outlier = key in hashtable;
+                        if(outlier){
+                            console.log('outlier');
+                        }
+                        return outlier ? 'red':'#1F77B4';    
+                    });
+                });
+
+            };
+        });
 
     indexApp.directive('dataplane',function(){
         function link(scope,element,attr){
@@ -143,8 +172,8 @@
 
                 console.log("Finish loading data plane values");
 
-                xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
-                yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
+                xScale.domain([d3.min(data, xValue), d3.max(data, xValue)]);
+                yScale.domain([d3.min(data, yValue), d3.max(data, yValue)]);
 
                 // x-axis
                 svg.append("g")
