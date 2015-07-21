@@ -23,15 +23,15 @@
         ];
     });
 
-    indexApp.controller('data_retrieve_controller',function($scope){
-        d3.json('plane_data.json',function(err,data){
-            if(err){
-                throw err;
-            }
-            $scope.data=data;
-            $scope.$apply();
-        });
-    });
+    // indexApp.controller('data_retrieve_controller',function($scope){
+    //     d3.json('plane_data.json',function(err,data){
+    //         if(err){
+    //             throw err;
+    //         }
+    //         $scope.data=data;
+    //         $scope.$apply();
+    //     });
+    // });
     indexApp.controller('getKRValue',function($scope,$http){
         $scope.kvalue=5;
         $scope.rvalue=5000;
@@ -39,10 +39,17 @@
             console.log('range value has changed to :'+'K:'+$scope.kvalue+'R:'+$scope.rvalue);
             $http.get('http://localhost:8080/method1?k='+$scope.kvalue+'&r='+$scope.rvalue).
                 success(function(data) {
-                    $scope.kvalue = data;
+                    var dataPoint = d3.selectAll('.dataPoint');
+                    dataPoint.filter(function(d){
+                        return data.indexOf({'id': d.id}) > -1;
+                    })
+                    .style('fill', 'red');
                 }).
                 error(function(data) {
-                    $scope.rvalue =data;
+                    d3.selectAll('.dataPoint')
+                    .style('fill',function(d) {
+                                    return (d.distanceList[$scope.kvalue-1] > +$scope.rvalue)
+                                            ? 'red' : '#1f77b4';});
                 });
         }
 
@@ -65,13 +72,13 @@
              * axis - sets up axis
              */
             // setup x
-            var xValue = function(d) { return d.dataset.point.lon;}, // data -> value
+            var xValue = function(d) { return d.point.lat;}, // data -> value
                 xScale = d3.scale.linear().range([0, width]), // value -> display
                 xMap = function(d) { return xScale(xValue(d));}, // data -> display
                 xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
             // setup y
-            var yValue = function(d) { return d.dataset.point.lat;}, // data -> value
+            var yValue = function(d) { return d.point.lon;}, // data -> value
                 yScale = d3.scale.linear().range([height, 0]), // value -> display
                 yMap = function(d) { return yScale(yValue(d));}, // data -> display
                 yAxis = d3.svg.axis().scale(yScale).orient("left");
@@ -104,6 +111,13 @@
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .call(zoom);
 
+                svg
+                .append("rect")
+                .attr("width", width)
+                .attr("height", height)
+                .attr('fill','#ddd')
+                .style("pointer-events", "all");
+
                 svg.append("clipPath")
                 .attr("id", "clip")
                 .append("rect")
@@ -116,16 +130,13 @@
                 .style("opacity", 0);
 
             // load data
-            d3.json("resources/lib/FakeData.json", function(error, data) {
+            d3.json("resources/lib/dataplane.json", function(error, data) {
 
-                data.forEach(function(subdata){
-                    // change string (from CSV) into number format
-                    subdata.dataSet.forEach(function(element){
-                        element.point.lat= +element.point.lat;
-                        element.point.lon = +element.point.lon;
-                        element.point.id=+element.point.id;
-                        //    console.log(d);
-                    });
+                data.forEach(function(element){
+                    // change string (from JSON) into number format
+                    element.point.lat= +element.point.lat;
+                    element.point.lon = +element.point.lon;
+                    element.point.id=+element.point.id;
                 });
 
                 zoom.x(xScale).y(yScale);
@@ -169,7 +180,7 @@
                     .attr("cy", yMap)
                     .style("fill", function(d) { return color(cValue(d));})
                     .classed('dataPoint', true)
-                    .attr("clipPath", "url(#clip")
+                    .attr("clip-path", "url(#clip)")
                     .on("mouseover", function(d) {
                         tooltip.transition()
                             .duration(200)
