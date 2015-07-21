@@ -46,14 +46,14 @@
                     d3.selectAll('.outlier')
                         .classed('outlier', false);
                     //mark outliers
-                    simpleJSONStream.forEach(function(element){
+                    data.forEach(function(element){
                         var sPoint = d3.select('#id'+element.id.toString());
                         if(sPoint){
                             console.log(sPoint.data()[0].point.id);
                             sPoint.classed('outlier', true);
                             console.log(sPoint.classed('outlier'));
                         }
-                    }); 
+                    });
                 }).
                 error(function(data) {
                     // d3.selectAll('.dataPoint')
@@ -79,8 +79,8 @@
                     //});
                 });
 
-            };
-        });
+        };
+    });
 
     indexApp.directive('dataplane',function(){
         function link(scope,element,attr){
@@ -120,7 +120,7 @@
                 var t = d3.event.translate,
                     s = d3.event.scale;
                 //comstrain zoomed window to bounds of graph
-                t[0] = Math.max(-width*(s-1), Math.min(t[0], 0)); 
+                t[0] = Math.max(-width*(s-1), Math.min(t[0], 0));
                 t[1] = Math.max(-height*(s-1), Math.min(t[1], 0));
                 zoom.translate(t);
 
@@ -146,14 +146,14 @@
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .call(zoom);
 
-                svg
+            svg
                 .append("rect")
                 .attr("width", width)
                 .attr("height", height)
                 .attr('fill','#ddd')
                 .style("pointer-events", "all");
 
-                svg.append("clipPath")
+            svg.append("clipPath")
                 .attr("id", "clip")
                 .append("rect")
                 .attr("width", width)
@@ -166,12 +166,12 @@
 
             // load data
             d3.json("resources/lib/dataplane.json", function(error, data) {
-                data.forEach(function(element){
-                    // change string (from JSON) into number format
-                    element.point.lat= +element.point.lat;
-                    element.point.lon = +element.point.lon;
-                    element.point.id=+element.point.id;
-                });
+//                data.forEach(function(element){
+//                    // change string (from JSON) into number format
+//                    element.point.lat= +element.point.lat;
+//                    element.point.lon = +element.point.lon;
+//                    element.point.id=+element.point.id;
+//                });
 
 
                 console.log("Finish loading data plane values");
