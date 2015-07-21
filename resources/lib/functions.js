@@ -33,8 +33,7 @@
     //     });
     // });
 
-    var simpleJSONStream = [{"id":32041},{"id":38757},{"id":38756},{"id":32077},{"id":32227},{"id":32229},{"id":32232},{"id":32235},{"id":32296},{"id":32303},{"id":32305},{"id":32387},{"id":32469},{"id":32470},{"id":32507},{"id":32508},{"id":32514},{"id":32515},{"id":32521},{"id":32522},{"id":32523},{"id":32529},{"id":32530},{"id":32554},{"id":32560},{"id":32561},{"id":32715},{"id":32721},{"id":32722},{"id":32804},{"id":32819},{"id":32826},{"id":32825},{"id":15595},{"id":15579},{"id":23337}];
-    simpleJSONStream.push({'id':34093});
+    //var simpleJSONStream = [{"id":32041},{"id":38757},{"id":38756},{"id":32077},{"id":32227},{"id":32229},{"id":32232},{"id":32235},{"id":32296},{"id":32303},{"id":32305},{"id":32387},{"id":32469},{"id":32470},{"id":32507},{"id":32508},{"id":32514},{"id":32515},{"id":32521},{"id":32522},{"id":32523},{"id":32529},{"id":32530},{"id":32554},{"id":32560},{"id":32561},{"id":32715},{"id":32721},{"id":32722},{"id":32804},{"id":32819},{"id":32826},{"id":32825},{"id":15595},{"id":15579},{"id":23337}];
 
     indexApp.controller('getKRValue',function($scope,$http){
         $scope.kvalue=5;
@@ -47,21 +46,6 @@
                     d3.selectAll('.outlier')
                         .classed('outlier', false);
                     //mark outliers
-                    data.forEach(function(element){
-                        d3.select('#'+element.id.toString())
-                            .classed('outlier', true);
-                    }); 
-                }).
-                error(function(data) {
-                    // d3.selectAll('.dataPoint')
-                    // .style('fill',function(d) {
-                    //                 return (d.distanceList[$scope.kvalue-1] > +$scope.rvalue)
-                    //                         ? 'red' : '#1f77b4';});
-
-                    //reset current outliers
-                    d3.selectAll('.outlier')
-                        .classed('outlier', false);
-                    //mark outliers
                     simpleJSONStream.forEach(function(element){
                         var sPoint = d3.select('#id'+element.id.toString());
                         if(sPoint){
@@ -70,6 +54,29 @@
                             console.log(sPoint.classed('outlier'));
                         }
                     }); 
+                }).
+                error(function(data) {
+                    // d3.selectAll('.dataPoint')
+                    // .style('fill',function(d) {
+                    //                 return (d.distanceList[$scope.kvalue-1] > +$scope.rvalue)
+                    //                         ? 'red' : '#1f77b4';});
+                    console.log("Fail getting outlier data");
+
+                    //var dataPoint = d3.selectAll('.dataPoint');
+                    //var hashtable = {};
+                    //simpleJSONStream.forEach(function(element){
+                    //     var key  = element.id.toString();
+                    //    hashtable[key]=true;
+                    //});
+                    //console.log(hashtable);
+                    //dataPoint.style('fill',function(d){
+                    //    key = d.point.id.toString();
+                    //    var outlier = key in hashtable;
+                    //    if(outlier){
+                    //        console.log('outlier');
+                    //    }
+                    //    return outlier ? 'red':'#1F77B4';
+                    //});
                 });
 
             };
@@ -255,7 +262,7 @@
             link: link,
             restrict: 'E',
             scope: { data: '=' }
-        }
+        };
     });
 
 
