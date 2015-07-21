@@ -38,47 +38,69 @@
     indexApp.controller('getKRValue',function($scope,$http){
         $scope.kvalue=5;
         $scope.rvalue=5000;
+        $scope.oldK=0;
+        $scope.oldR=0;
         $scope.updateKRValue=function(){
             console.log('range value has changed to :'+'K:'+$scope.kvalue+'R:'+$scope.rvalue);
-            $http.get('http://localhost:8080/method1?k='+$scope.kvalue+'&r='+$scope.rvalue).
-                success(function(data) {
-                    //reset current outliers
-                    d3.selectAll('.outlier')
-                        .classed('outlier', false);
-                    //mark outliers
-                    data.forEach(function(element){
-                        var sPoint = d3.select('#id'+element.id.toString());
-                        if(sPoint){
-                            console.log(sPoint.data()[0].point.id);
-                            sPoint.classed('outlier', true);
-                            console.log(sPoint.classed('outlier'));
-                        }
+            if($scope.rvalue===$scope.oldR && $scope.kvalue===$scope.oldK){
+                console.log('K and R are the same as previous request');
+            }
+            else{
+                $http.get('http://localhost:8080/method1?k='+$scope.kvalue+'&r='+$scope.rvalue).
+                    success(function(data) {
+                        //reset current outliers
+                        d3.selectAll('.outlier')
+                            .classed('outlier', false);
+                        //mark outliers
+                        data.forEach(function(element){
+                            var sPoint = d3.select('#id'+element.id.toString());
+                            if(sPoint){
+                                console.log(sPoint.data()[0].point.id);
+                                sPoint.classed('outlier', true);
+                                console.log(sPoint.classed('outlier'));
+                            }
+                        }); 
+                    }).
+                    error(function(data) {
+                        // d3.selectAll('.dataPoint')
+                        // .style('fill',function(d) {
+                        //                 return (d.distanceList[$scope.kvalue-1] > +$scope.rvalue)
+                        //                         ? 'red' : '#1f77b4';});
+                        console.log("Fail getting outlier data");
+
+                        //var dataPoint = d3.selectAll('.dataPoint');
+                        //var hashtable = {};
+                        //simpleJSONStream.forEach(function(element){
+                        //     var key  = element.id.toString();
+                        //    hashtable[key]=true;
+                        //});
+                        //console.log(hashtable);
+                        //dataPoint.style('fill',function(d){
+                        //    key = d.point.id.toString();
+                        //    var outlier = key in hashtable;
+                        //    if(outlier){
+                        //        console.log('outlier');
+                        //    }
+                        //    return outlier ? 'red':'#1F77B4';
+                        //});
                     });
-                }).
-                error(function(data) {
-                    // d3.selectAll('.dataPoint')
-                    // .style('fill',function(d) {
-                    //                 return (d.distanceList[$scope.kvalue-1] > +$scope.rvalue)
-                    //                         ? 'red' : '#1f77b4';});
-                    console.log("Fail getting outlier data");
+                }
+            $scope.oldK=$scope.kvalue;
+            $scope.oldR=$scope.rvalue;
 
-                    //var dataPoint = d3.selectAll('.dataPoint');
-                    //var hashtable = {};
-                    //simpleJSONStream.forEach(function(element){
-                    //     var key  = element.id.toString();
-                    //    hashtable[key]=true;
-                    //});
-                    //console.log(hashtable);
-                    //dataPoint.style('fill',function(d){
-                    //    key = d.point.id.toString();
-                    //    var outlier = key in hashtable;
-                    //    if(outlier){
-                    //        console.log('outlier');
-                    //    }
-                    //    return outlier ? 'red':'#1F77B4';
-                    //});
+            };
+        });
+    indexApp.directive('stringToNumber', function() {
+        return {
+            require: 'ngModel',
+            link: function(scope, element, attrs, ngModel) {
+                ngModel.$parsers.push(function(value) {
+                    return '' + value;
                 });
-
+                ngModel.$formatters.push(function(value) {
+                    return parseFloat(value, 10);
+                });
+            }   
         };
     });
 
@@ -120,7 +142,7 @@
                 var t = d3.event.translate,
                     s = d3.event.scale;
                 //comstrain zoomed window to bounds of graph
-                t[0] = Math.max(-width*(s-1), Math.min(t[0], 0));
+                t[0] = Math.max(-width*(s-1), Math.min(t[0], 0)); 
                 t[1] = Math.max(-height*(s-1), Math.min(t[1], 0));
                 zoom.translate(t);
 
@@ -146,14 +168,14 @@
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .call(zoom);
 
-            svg
+                svg
                 .append("rect")
                 .attr("width", width)
                 .attr("height", height)
                 .attr('fill','#ddd')
                 .style("pointer-events", "all");
 
-            svg.append("clipPath")
+                svg.append("clipPath")
                 .attr("id", "clip")
                 .append("rect")
                 .attr("width", width)
@@ -166,12 +188,12 @@
 
             // load data
             d3.json("resources/lib/dataplane.json", function(error, data) {
-//                data.forEach(function(element){
-//                    // change string (from JSON) into number format
-//                    element.point.lat= +element.point.lat;
-//                    element.point.lon = +element.point.lon;
-//                    element.point.id=+element.point.id;
-//                });
+                data.forEach(function(element){
+                    // change string (from JSON) into number format
+                    element.point.lat= +element.point.lat;
+                    element.point.lon = +element.point.lon;
+                    element.point.id=+element.point.id;
+                });
 
 
                 console.log("Finish loading data plane values");
