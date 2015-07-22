@@ -1,7 +1,20 @@
 (function(){
     var app, indexApp;
     indexApp=angular.module('indexApp',['ui.bootstrap']);
-
+    //app=angular.module('hello', ['ui.bootstrap']);
+    //
+    //var gem = { id: 'Error', content: 0 };
+    //
+    //app.controller('Hello',
+    //    function($scope, $http){
+    //        $http.get('http://localhost:8080/greeting').
+    //            success(function(data) {
+    //                $scope.greeting = data;
+    //            }).
+    //            error(function(data) {
+    //                $scope.greeting =gem;
+    //            });
+    //    });
 
     indexApp.controller('TabCtrl',function($scope,$window){
         $scope.tabs = [
@@ -10,6 +23,15 @@
         ];
     });
 
+    // indexApp.controller('data_retrieve_controller',function($scope){
+    //     d3.json('plane_data.json',function(err,data){
+    //         if(err){
+    //             throw err;
+    //         }s
+    //         $scope.data=data;
+    //         $scope.$apply();
+    //     });
+    // });
 
     //var simpleJSONStream = [{"id":32041},{"id":38757},{"id":38756},{"id":32077},{"id":32227},{"id":32229},{"id":32232},{"id":32235},{"id":32296},{"id":32303},{"id":32305},{"id":32387},{"id":32469},{"id":32470},{"id":32507},{"id":32508},{"id":32514},{"id":32515},{"id":32521},{"id":32522},{"id":32523},{"id":32529},{"id":32530},{"id":32554},{"id":32560},{"id":32561},{"id":32715},{"id":32721},{"id":32722},{"id":32804},{"id":32819},{"id":32826},{"id":32825},{"id":15595},{"id":15579},{"id":23337}];
 
@@ -37,7 +59,7 @@
                                 sPoint.classed('outlier', true);
                                 console.log(sPoint.classed('outlier'));
                             }
-                        }); 
+                        });
                     }).
                     error(function(data) {
                         // d3.selectAll('.dataPoint')
@@ -62,15 +84,16 @@
                         //    return outlier ? 'red':'#1F77B4';
                         //});
                     });
-                }
+            }
             $scope.oldK=$scope.kvalue;
             $scope.oldR=$scope.rvalue;
+        };
+    });
 
-            };
-        });
     indexApp.directive('stringToNumber', function() {
         return {
             require: 'ngModel',
+            resctric:'C',
             link: function(scope, element, attrs, ngModel) {
                 ngModel.$parsers.push(function(value) {
                     return '' + value;
@@ -78,7 +101,7 @@
                 ngModel.$formatters.push(function(value) {
                     return parseFloat(value, 10);
                 });
-            }   
+            }
         };
     });
 
@@ -120,7 +143,7 @@
                 var t = d3.event.translate,
                     s = d3.event.scale;
                 //comstrain zoomed window to bounds of graph
-                t[0] = Math.max(-width*(s-1), Math.min(t[0], 0)); 
+                t[0] = Math.max(-width*(s-1), Math.min(t[0], 0));
                 t[1] = Math.max(-height*(s-1), Math.min(t[1], 0));
                 zoom.translate(t);
 
@@ -146,14 +169,14 @@
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .call(zoom);
 
-                svg
+            svg
                 .append("rect")
                 .attr("width", width)
                 .attr("height", height)
                 .attr('fill','#ddd')
                 .style("pointer-events", "all");
 
-                svg.append("clipPath")
+            svg.append("clipPath")
                 .attr("id", "clip")
                 .append("rect")
                 .attr("width", width)
@@ -166,12 +189,12 @@
 
             // load data
             d3.json("resources/lib/dataplane.json", function(error, data) {
-                data.forEach(function(element){
-                    // change string (from JSON) into number format
-                    element.point.lat= +element.point.lat;
-                    element.point.lon = +element.point.lon;
-                    element.point.id=+element.point.id;
-                });
+//				data.forEach(function(element){
+//				// change string (from JSON) into number format
+//				element.point.lat= +element.point.lat;
+//				element.point.lon = +element.point.lon;
+//				element.point.id=+element.point.id;
+//				});
 
 
                 console.log("Finish loading data plane values");
