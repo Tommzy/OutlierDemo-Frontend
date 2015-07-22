@@ -1,0 +1,43 @@
+body {
+    font: 15px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.dot {
+    stroke: #000;
+}
+
+.tooltip {
+    background-color: #269abc;
+    color: #dff0d8;
+    position: absolute;
+    width: 100px;
+    height: 28px;
+    pointer-events: none;
+
+}
+
+.dataPoint{
+    fill:#1F77B4;
+}
+
+.outlier{
+    fill:red;
+}
+
+.selected{
+    stroke:green;
+    stroke-opacity:1;
+}
+
+.line {
+    fill: none;
+    stroke-width: 3px;
+    stroke: black;
+}
