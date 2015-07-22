@@ -18,7 +18,6 @@
 
     indexApp.controller('TabCtrl',function($scope,$window){
         $scope.tabs = [
-            { title:'Comparative Outlier Analytics (Under Construction)', content:'Under Developing' },
             { title:'Parameter Space Exploration (Under Construction)', content:'Under Developing' }
         ];
     });
@@ -252,7 +251,15 @@
                         tooltip.transition()
                             .duration(500)
                             .style("opacity", 0);
+                    })
+                    .on('click', function(d){
+                        var clickedPoint = d3.select(this);
+                        clickedPoint.classed('selected',!clickedPoint.classed('selected'));
+                        console.log('Selected Point');
+                        updateBoundaryGraph();
+
                     });
+
 
                 // draw legend
                 var legend = svg.selectAll(".legend")
@@ -287,6 +294,156 @@
             scope: { data: '=' }
         };
     });
+
+
+
+    var boundaryX,boundaryY;
+    updateBoundaryGraph = function(){
+        var selectedPoints = d3.selectAll('.selected');
+        var boundaryPoints = [];
+
+        if(!selectedPoints.empty()){
+            selectedPoints.data().forEach(function(element){
+                var tempArray = [{'X':0,'Y':0}];
+                for(i = 0;i < 10; i++){
+                    tempArray.push({'Y':element.distanceList[i],"X":i+1});
+                }
+                tempArray.push({'X':11,'Y':element.distanceList[9]});
+                boundaryPoints.push(tempArray);
+            });
+            var boundaryGraph =d3.select('.boundaryGraph');
+
+            var line = d3.svg.line()
+                .interpolate("step-after")
+                .x(function(d) { return boundaryX(d.X); })
+                .y(function(d) { return boundaryY(d.Y); });
+
+            //clears the svg canvas
+            boundaryGraph.selectAll(".line").remove();
+            //draws the lines
+            boundaryGraph.selectAll(".line")
+                .data(boundaryPoints)
+                .enter()
+                .append("path")
+                .attr("class", "line")
+                .attr("clip-path", "url(#clip)")
+                .attr("d", line);
+
+            console.log('printed: ' +selectedPoints.size() +' points');
+        }
+    };
+
+    indexApp.directive('boundary', function($window){
+        return{
+            restrict:'E',
+            link: function(scope){
+
+                var margin, height,width;
+                var x,y,xAxis,yAxis,svg;
+                var d3 = $window.d3;
+                var zoom,clipPath;
+
+                setParameters();
+                plotGraph();
+
+                function setParameters(){
+
+                    //margin = {top: 30, right: 20, bottom: 30, left: 50};
+                    //width = 600 - margin.left - margin.right;
+                    //height = 600 - margin.top - margin.bottom;
+
+                    margin = {top: 20, right: 20, bottom: 30, left: 40};
+                    width = 500 - margin.left - margin.right;
+                    height = 500 - margin.top - margin.bottom;
+
+                    // Set the ranges
+                    x = d3.scale.linear().range([0, width]);
+                    y = d3.scale.linear().range([height, 0]);
+
+                    // Define the axes
+                    xAxis = d3.svg.axis().scale(x)
+                        .orient("bottom").ticks(11);
+
+                    yAxis = d3.svg.axis().scale(y)
+                        .orient("left").ticks(5);
+
+                    //create zoom object
+                    zoom = d3.behavior.zoom()
+                        .scaleExtent([1,10])
+                        .on("zoom", zoomed);
+
+                    // Adds the svg canvas
+                    svg = d3.select("boundary")
+                        .insert("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                        .classed('boundaryGraph',true)
+                        .call(zoom);
+
+                    svg
+                        .append("rect")
+                        .attr("width", width)
+                        .attr("height", height)
+                        .attr('fill','#ddd')
+                        .style("pointer-events", "all");
+
+                    svg.append("clipPath")
+                        .attr("id", "clip2")
+                        .append("rect")
+                        .attr("width", width)
+                        .attr("height", height);
+                }
+
+                function plotGraph(){
+                    createAxis();
+                    zoom.x(x).y(y);
+
+
+                    boundaryX = x;
+                    boundaryY = y;
+                    updateBoundaryGraph();
+                }
+
+                function createAxis(){
+                    // Set the domain of data
+                    x.domain([0, 10.5]);
+                    y.domain([0,100]);
+
+                    // Add the X Axis
+                    svg.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + height + ")")
+                        .call(xAxis);
+
+                    // Add the Y Axis
+                    svg.append("g")
+                        .attr("class", "y axis")
+                        .call(yAxis);
+                }
+
+                function zoomed() {
+                    var t = d3.event.translate,
+                        s = d3.event.scale;
+                    t[0] = Math.max(-width*(s-1), Math.min(t[0], 0));
+                    t[1] = Math.max(-height*(s-1), Math.min(t[1], 0));
+
+                    zoom.translate(t);
+
+
+                    svg.select(".x.axis").call(xAxis);
+                    svg.select(".y.axis").call(yAxis);
+
+                    updateBoundaryGraph();
+
+                    console.log(zoom.translate());
+                }
+
+            }
+        };
+    });
+
 
 
 
