@@ -362,7 +362,10 @@
                     })
                     .on('click', function(d){
                         var clickedPoint = d3.select(this);
-                        clickedPoint.classed('selected',!clickedPoint.classed('selected'));
+                        var currentlySelected =clickedPoint.classed('selected');
+
+                        if(currentlySelected) clickedPoint.classed('deselected',true);
+                        clickedPoint.classed('selected',!currentlySelected);
                         console.log('Selected Point');
                         updateBoundaryGraph();
 
@@ -404,17 +407,18 @@
     });
     
 
+
+    var domain = [];
+    for(var i = 0; i<20; i++)domain.push('');
+    var colors;
+
     //clears the svg canvas
     var boundaryX,boundaryY;
     updateBoundaryGraph = function(){
-        var domain = [];
-        for(var i = 0; i<20; i++)domain.push('');
-        var colors = d3.scale.category20().range();
-        console.log(colors);
+        colors = d3.scale.category20().range();
 
         var selectedPoints = d3.selectAll('.selected');
         var boundaryPoints = [];
-
 
         //clears the svg canvas
         d3.selectAll(".line").remove();
@@ -466,7 +470,6 @@
                         index=blackIndex;
                     }else{
                     }
-                     console.log(domain); 
                 }
 
                 var tempcolor=colors[index];
@@ -477,6 +480,9 @@
             })
             .attr("clip-path", "url(#clip2)")
             .attr("d", line);
+
+
+            console.log(domain); 
 
             console.log('printed: ' +selectedPoints.size() +' points');
         }
