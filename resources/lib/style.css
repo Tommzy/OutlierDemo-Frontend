@@ -47,7 +47,6 @@ body {
 .line {
     fill: none;
     stroke-width: 3px;
-    stroke: black;
 }
 
 .selectionRect{
