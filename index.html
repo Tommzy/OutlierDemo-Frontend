@@ -79,8 +79,15 @@
                             <!--<button type="submit" class="btn btn-primary"> Update</button>-->
                         <!--</form>-->
                     <!--</div>-->
-                    <boundary class="col-md-6"></boundary>
-                    <dataplane class="col-md-6"></dataplane>
+                    <div ng-controller="getKRValue">
+                        <boundary class="col-md-6">
+                            <form>
+                                <button class"btn boundaryZoom" ng-click='zoom()'> Zoom </button> 
+                                <button class"btn resetBSelection" ng-click='resetBSelection()'> Reset Boundary Selection </button> 
+                            </form>
+                        </boundary>
+                        <dataplane class="col-md-6"></dataplane>
+                    </div>
                 </div>
 
             </tab>
