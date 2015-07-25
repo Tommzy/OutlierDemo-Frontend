@@ -18,7 +18,7 @@
 
     indexApp.controller('TabCtrl',function($scope,$window){
         $scope.tabs = [
-            { title:'Parameter Space Exploration (Under Construction)', content:'Under Developing' }
+            { title:'COA', content:'Under Developing' }
         ];
     });
 
