@@ -52,7 +52,7 @@
                             .classed('outlier', false);
                         //mark outliers
                         data.forEach(function(element){
-                            var sPoint = d3.selectAll('.id'+element.id.toString());
+                            var sPoint = d3.selectAll('#id'+element.id.toString());
                             if(sPoint){
                                 console.log(sPoint.data()[0].point.id);
                                 sPoint.classed('outlier', true);
@@ -134,7 +134,7 @@
                     .classed('constOut',false);
 
                 constOut.forEach(function(element){
-                    var sPoint = d3.selectAll('.id'+element.id.toString());
+                    var sPoint = d3.selectAll('#id'+element.id.toString());
                     if(sPoint){
                         // console.log(sPoint.data()[0].point.id);
                         sPoint.classed('constOut', true);
@@ -146,7 +146,7 @@
                     .classed('constIn',false);
 
                 constIn.forEach(function(element){
-                    var sPoint = d3.selectAll('.id'+element.id.toString());
+                    var sPoint = d3.select('#id'+element.id.toString());
                     if(sPoint){
                         // console.log(sPoint.data()[0].point.id);
                         sPoint.classed('constIn', true);
@@ -158,14 +158,14 @@
                 var constOut =textConstData[0];
                 var constIn=textConstData[1];
                 //reset current constant outliers
-                d3.selectAll('.constOut')
+                d3.select('.constOut')
                     .classed('constOut',false);
 
                 // console.log(constOut);
                 console.log('starting constant outlier');
 
                 constOut.forEach(function(element){
-                    var sPoint = d3.selectAll('.id'+element.id.toString());
+                    var sPoint = d3.selectAll('#id'+element.id.toString());
                     // console.log(sPoint);
                     if(sPoint){
                         // console.log(sPoint.data()[0].point.id);
@@ -177,11 +177,11 @@
                 console.log('starting constant inlier');
                 console.log(constIn.length);
 
-                d3.selectAll('.constIn')
+                d3.select('.constIn')
                     .classed('constIn',false);
 
                 constIn.forEach(function(element){
-                    var sPoint = d3.selectAll('.id'+element.id.toString());
+                    var sPoint = d3.selectAll('#id'+element.id.toString());
                     if(sPoint){
                         // console.log(sPoint.data()[0].point.id);
                         sPoint.classed('constIn', true);
@@ -189,7 +189,7 @@
                     }
                 });
 
-                console.log('Finished Constant Liers')
+                console.log('Finished Constant Liers');
 
             });
         };
@@ -345,7 +345,7 @@
                     .attr("cy", yMap)
                     .classed('dataPoint', true)
                     .attr("clip-path", "url(#clip)")
-                    .attr('class', function(d){return d3.select(this).attr("class")+' id'+d.point.id; })
+                    .attr('id', function(d){return 'id'+d.point.id; })
                     .on("mouseover", function(d) {
                         tooltip.transition()
                             .duration(200)
@@ -474,7 +474,7 @@
 
                 var tempcolor=colors[index];
 
-                d3.select('.id'+id).attr('stroke',tempcolor);
+                d3.select('#id'+id).attr('stroke',tempcolor);
 
                 return tempcolor;
             })

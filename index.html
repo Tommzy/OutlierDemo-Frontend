@@ -35,12 +35,12 @@
     </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="getKRValue">
     <div class="col-md-6">
         <div class="jumbotron" ng-controller="TabCtrl">
             <tabset class="tabs" >
                 <tab heading="OD">
-                    <div ng-controller="getKRValue">
+                    <div>
                         <form class="row-fluid" ng-submit="updateKRValue()">
                             <p>K Value: </p>
                             {{kvalue}}
@@ -66,8 +66,12 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="jumbotron-fluid">
-            <dataplane class="col-md-6"></dataplane>
+        <div class="jumbotron">
+            <tabset class="tabs" >
+                <tab heading="DS">
+                    <dataplane></dataplane>
+                </tab>
+            </tabset>
         </div>
     </div>
 </div>
