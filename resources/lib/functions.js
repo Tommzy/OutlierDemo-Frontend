@@ -39,6 +39,13 @@
         $scope.rvalue=5000;
         $scope.oldK=0;
         $scope.oldR=0;
+
+        $scope.setKR = function(k,r){
+            $scope.kvalue=k;
+            $scope.rvalue=r;
+            // console.log('k r set')
+        };
+
         $scope.updateKRValue=function(){
             console.log('range value has changed to :'+'K:'+$scope.kvalue+'R:'+$scope.rvalue);
             if($scope.rvalue===$scope.oldR && $scope.kvalue===$scope.oldK){
@@ -616,8 +623,10 @@
 
                         //add ajax request
                         console.log('K: '+k+' R:'+r);
-                        scope.kvalue = k;
-                        scope.rvalue = r;
+                        scope.setKR(k,r);
+                        // scope.kvalue = k;
+                        // scope.rvalue = r;
+                        // console.log(scope.kvalue);
                         scope.$apply('updateKRValue()');
 
                     }else{
