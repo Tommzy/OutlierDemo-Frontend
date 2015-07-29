@@ -40,8 +40,8 @@ body {
 }
 
 .selected{
-    stroke:green;
     stroke-opacity:1;
+    stroke-width:3px;
 }
 
 .line {

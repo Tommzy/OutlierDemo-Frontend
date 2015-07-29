@@ -4,11 +4,25 @@
     <title>ONION</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="resources/lib/bootstrap.min.css"/>
+    <link rel="stylesheet" href="resources/lib/vendor/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="resources/lib/style.css">
-    <script src="resources/lib/angular.js"></script>
-    <script src="resources/lib/functions.js"></script>
-    <script src="resources/lib/ui-bootstrap-tpls-0.13.1.js"></script>
+    <script src="resources/lib/vendor/angular.js"></script>
+    <script src="resources/lib/app.js"></script>
+    <!---controllers --> 
+    <script src="resources/lib/controllers/boundaryCtrl.js"></script>
+    <script src="resources/lib/controllers/datasetCtrl.js"></script>
+    <script src="resources/lib/controllers/tabCtrl.js"></script>
+    <script src="resources/lib/controllers/sliderCtrl.js"></script>
+    <!---directives --> 
+    <script src="resources/lib/directives/boundary.js"></script>
+    <script src="resources/lib/directives/dataplane.js"></script>
+    <script src="resources/lib/directives/stringToNumber.js"></script>
+    <!---directives --> 
+    <script src="resources/lib/services/updateBoundaryGraph.js"></script>
+    <script src="resources/lib/services/getConstLiers.js"></script>
+    <script src="resources/lib/services/getSelection.js"></script>
+    <script src="resources/lib/services/updateKR.js"></script>
+    <script src="resources/lib/vendor/ui-bootstrap-tpls-0.13.1.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <!--<script src="resources/lib/d3functions.js"></script>-->
 </head>
@@ -35,13 +49,13 @@
     </div>
 </nav>
 
-<div class="container-fluid" ng-controller="getKRValue">
+<div class="container-fluid" >
     <div class="col-md-6">
         <div class="jumbotron" ng-controller="TabCtrl">
             <tabset class="tabs" >
-                <tab heading="OD">
+                <tab heading="OD" ng-controller="sliderCtrl">
                     <div>
-                        <form class="row-fluid" ng-submit="updateKRValue()">
+                        <form class="row-fluid" ng-submit="updateKRValue()" >
                             <p>K Value: </p>
                             {{kvalue}}
                             <input name="kvaluerange" ng-init="updateKRValue()" type="range" min="1" max="10" ng-model="kvalue" ng-mouseup="updateKRValue()">
@@ -56,7 +70,7 @@
                         </form>
                     </div>
                 </tab>
-                <tab heading="PSE">
+                <tab heading="PSE" ng-controller="boundaryCtrl">
                     <boundary></boundary>
                 </tab>
                 <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
@@ -67,7 +81,7 @@
     </div>
     <div class="col-md-6">
         <div class="jumbotron">
-            <tabset class="tabs" >
+            <tabset class="tabs"  ng-controller="datasetCtrl">
                 <tab heading="Data Set">
                     <dataplane></dataplane>
                 </tab>
