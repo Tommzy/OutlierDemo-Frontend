@@ -11,16 +11,13 @@ angular.module('indexApp').directive('boundary',
             var zoom,clipPath;
             var selection = {'point1':[0,0], 'point2':[0,0]};
             var selectionRect;
+            var shiftDown=false;
 
             setParameters();
             plotGraph();
 
             function setParameters(){
-
-                //margin = {top: 30, right: 20, bottom: 30, left: 50};
-                //width = 600 - margin.left - margin.right;
-                //height = 600 - margin.top - margin.bottom;
-
+                // magins and dimensions of the svg
                 margin = {top: 20, right: 20, bottom: 30, left: 40};
                 width = 500 - margin.left - margin.right;
                 height = 500 - margin.top - margin.bottom;
@@ -57,6 +54,7 @@ angular.module('indexApp').directive('boundary',
                     var drag = d3.behavior.drag()
                         .on("drag", dragmove);
 
+                // creates graph backdrop
                 svg
                     .append("rect")
                     .attr("width", width)
@@ -65,6 +63,7 @@ angular.module('indexApp').directive('boundary',
                     .style("pointer-events", "all")
                     .call(drag);
 
+                // creates the clipping rectangle
                 svg.append("clipPath")
                     .attr("id", "clip2")
                     .append("rect")
@@ -72,6 +71,7 @@ angular.module('indexApp').directive('boundary',
                     .attr("height", height);
             }
 
+            // creates the kr selector
             svg
             .append('circle')
             .classed('KRSelector', true);
@@ -83,19 +83,20 @@ angular.module('indexApp').directive('boundary',
                             .attr('height',0)
                             .classed('selectionRect', true);
 
-            var shiftDown=false;
-
+            // toggles shiftDown 
             d3.select('body')
                 .on('keydown', function(){
                     if(d3.event.keyCode == 16){
-                            shiftDown=  true;
+                        shiftDown=  true;
                     }
                 })
                 .on('keyup', function(){
                     if(d3.event.keyCode == 16){
-                     shiftDown = false;
+                        shiftDown = false;
                     }
                 });
+
+            // creates interations with the boundary canvas
             svg.on('mousedown', function(){
                 // console.log('selection mousedown');
                 // console.log(selection);
@@ -122,17 +123,10 @@ angular.module('indexApp').directive('boundary',
                     var k = Math.round(x.invert(mousePoint[0]));
                     var r = Math.round(y.invert(mousePoint[1]));
 
-                    d3.select('.KRSelector')
-                    .attr('cx', x(k))
-                    .attr('cy', y(r))
-                    .attr('r', 3);
+                    // console.log('K: '+k+' R:'+r);
 
-                    //add ajax request
-                    console.log('K: '+k+' R:'+r);
+                    // sets the kr values and updates points
                     updateKR.setKR(k,r);
-                    // scope.kvalue = k;
-                    // scope.rvalue = r;
-                    // console.log(scope.kvalue);
 
                 }else{
                     var rangex =d3.extent([selection.point1[0],selection.point2[0]]).map(x.invert);
@@ -154,6 +148,7 @@ angular.module('indexApp').directive('boundary',
 
             });
 
+            //defines the drag movement
             function dragmove(d){
                 // console.log(shiftDown);
                 if(shiftDown){}
@@ -175,13 +170,16 @@ angular.module('indexApp').directive('boundary',
                 }
             }
 
+            // creates axis, sets the scalese in updateBoundary service, and updates the boundaryGraph 
             function plotGraph(){
                 createAxis();
                 // zoom.x(x).y(y);
+                // console.log('setting scales');
                 updateBoundaryGraph.setScales(x,y);
                 updateBoundaryGraph.update();
             }
 
+            // creates axis
             function createAxis(){
                 // Set the domain of data
                 x.domain([0, 10.5]);

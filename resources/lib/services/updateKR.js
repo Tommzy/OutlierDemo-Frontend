@@ -6,7 +6,10 @@ angular.module('indexApp').factory('updateKR',['$http','$rootScope', function($h
     oldR=0;
 
 
-    // update k and r values
+    /**
+     * @param integer k
+     * @param integer r
+     */
     setKR = function(k,r){
         kvalue=k;
         rvalue=r;
@@ -17,13 +20,16 @@ angular.module('indexApp').factory('updateKR',['$http','$rootScope', function($h
     updateKR = function(){
         console.log('range value has changed to :'+'K:'+kvalue+' R:'+rvalue);
 
+
+		$rootScope.$broadcast('updateKR', {k:kvalue, r:rvalue});
+
         if(rvalue===oldR && kvalue===oldK){
             console.log('K and R are the same as previous request');
         }
         else{
 	        $http.get('http://localhost:8080/method1?k='+kvalue+'&r='+rvalue)
 	            .success(function(data) {
-	        		$rootScope.$broadcast('updateKR', {data:data});
+	            	$rootScope.$broadcast('redrawDataPoints',{data:data});
 	            })
 	            .error(function(data) {
 	                console.log("Fail getting outlier data");

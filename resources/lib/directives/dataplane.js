@@ -94,6 +94,7 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph',function
 
             console.log("Finish loading data plane values");
 
+            // sets domain of the scales
             xScale.domain([d3.min(data, xValue), d3.max(data, xValue)]);
             yScale.domain([d3.min(data, yValue), d3.max(data, yValue)]);
 
@@ -144,6 +145,7 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph',function
                         .style("left", (d3.event.layerX + 5) + "px")
                         .style("top", (d3.event.layerY - 28) + "px");
                 })
+                // creates point selection functionality
                 .on("mouseout", function(d) {
                     tooltip.transition()
                         .duration(500)

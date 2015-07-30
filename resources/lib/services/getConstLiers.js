@@ -4,6 +4,7 @@ angular.module('indexApp').factory('getConstLiers',['$http', function($http){
 
 
 	return{
+		// gets const liers and colors the points
 		update: function updateMethod(kmin,kmax,rmin,rmax){
 	        $http.get('http://localhost:8080/getConstants?kmin='+
 	                        kmin+'&kmax='+kmax+'&rmin='+rmin+'&rmax='+rmax)
@@ -17,6 +18,7 @@ angular.module('indexApp').factory('getConstLiers',['$http', function($http){
 	            // console.log(constOut);
 	            console.log('starting constant outlier');
 
+	            // sets const out
 	            constOut.forEach(function(element){
 	                var sPoint = d3.selectAll('#id'+element.id.toString());
 	                // console.log(sPoint);
@@ -30,9 +32,11 @@ angular.module('indexApp').factory('getConstLiers',['$http', function($http){
 	            console.log('starting constant inlier');
 	            console.log(constIn.length);
 
+	            // reset constIn
 	            d3.select('.constIn')
 	                .classed('constIn',false);
 
+                // sets constIn
 	            constIn.forEach(function(element){
 	                var sPoint = d3.selectAll('#id'+element.id.toString());
 	                if(sPoint){
@@ -57,6 +61,7 @@ angular.module('indexApp').factory('getConstLiers',['$http', function($http){
 	            // console.log(constOut);
 	            console.log('starting constant outlier');
 
+	            // sets const out
 	            constOut.forEach(function(element){
 	                var sPoint = d3.selectAll('#id'+element.id.toString());
 	                // console.log(sPoint);
@@ -73,6 +78,7 @@ angular.module('indexApp').factory('getConstLiers',['$http', function($http){
 	            d3.select('.constIn')
 	                .classed('constIn',false);
 
+                // sets const in
 	            constIn.forEach(function(element){
 	                var sPoint = d3.selectAll('#id'+element.id.toString());
 	                if(sPoint){

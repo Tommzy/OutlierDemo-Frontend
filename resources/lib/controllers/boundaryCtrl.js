@@ -1,4 +1,7 @@
-angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window', function($scope,$window){
+angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window','updateBoundaryGraph', function($scope,$window,updateBoundaryGraph){
+
+	/**zooms the boundary graph to the selected area 
+	 */
     $scope.zoom = function(){
         console.log('ZOOM');
         var selectionRect = d3.selectAll('.selectionRect');
@@ -24,6 +27,8 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window', funct
         // svg.select(".y.axis").call(yAxis);
     };
 
+    /** resets the selection in the boundary graph
+     */
     $scope.resetBSelection =function(){
         var selectionRect = d3.selectAll('.selectionRect');
         selectionRect
@@ -34,7 +39,12 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window', funct
 
     };  
 
-    $scope.$on('updateBoundary', function(event, args){
+
+    /** draws the boundary lines
+     * @param  {event} event - event information
+     * @param  {object} args - aruments passed by event
+     */
+    function drawBoundaries(event, args){
     	var line = args.line;
     	var domain = args.domain;
     	var colors = args.colors;
@@ -70,5 +80,21 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window', funct
 	        })
 	        .attr("clip-path", "url(#clip2)")
 	        .attr("d", line);
+    }
+
+    // listens for the updateBoundary event in $scope
+    $scope.$on('updateBoundary', drawBoundaries);
+
+    // when something changes the kr values, set the kr indicator to the right location
+    $scope.$on('updateKR', function(event, args){
+    	var scales = updateBoundaryGraph.getScales();
+
+    	if(scales.x&&scales.y){
+    		// console.log('reloctation kr selector on boundary graph');
+		    d3.select('.KRSelector')
+			    .attr('cx', scales.x(args.k))
+			    .attr('cy', scales.y(args.r))
+			    .attr('r', 3);
+		}
     });
 }]);
