@@ -64,13 +64,16 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph',function
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(zoom);
 
+        // sets up graph rectangle
         svg
             .append("rect")
             .attr("width", width)
             .attr("height", height)
             .attr('fill','#ddd')
+            .attr('stroke','black')
             .style("pointer-events", "all");
 
+        // sets up clip path
         svg.append("clipPath")
             .attr("id", "clip")
             .append("rect")

@@ -60,6 +60,7 @@ angular.module('indexApp').directive('boundary',
                     .attr("width", width)
                     .attr("height", height)
                     .attr('fill','#ddd')
+                    .attr('stroke','black')
                     .style("pointer-events", "all")
                     .call(drag);
 
