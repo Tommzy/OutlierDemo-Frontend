@@ -4,17 +4,19 @@ angular.module('indexApp').factory('updateBoundaryGraph', ['$rootScope', functio
     var colors = d3.scale.category20().range();
 
     //clears the svg canvas
-    var boundaryX,boundaryY;
+    var boundaryX,boundaryY,boundarySet=false;
     
     return{
     	// sets the x and y scales for the boundary graph to the inputs x and y
     	setScales : function(x,y){
+    		console.log('scales set');
     		boundaryX = x;
     		boundaryY = y;
+    		boundarySet=true;
     	},
 
     	getScales :function(){
-    		return {x:boundaryX, y:boundaryY};
+    		return {boundarySet:boundarySet,x:boundaryX, y:boundaryY};
     	},
 
 
