@@ -50,12 +50,12 @@
     </div>
 </nav>
 
-<div class="container-fluid" >
-    <div class="col-md-6">
+<div class="container-fluid" id="content">
+    <div class="col-md-6" id="leftPane">
         <div class="jumbotron" ng-controller="TabCtrl">
             <tabset class="tabs" >
                 <tab heading="OD" ng-controller="sliderCtrl">
-                    <div>
+                    <div id="sliders">
                         <form class="row-fluid" ng-submit="updateKRValue()" >
                             <p>K Value: </p>
                             {{kvalue}}
@@ -71,7 +71,7 @@
                         </form>
                     </div>
                 </tab>
-                <tab heading="PSE" ng-controller="boundaryCtrl">
+                <tab heading="PSE" id="boundary" ng-controller="boundaryCtrl">
                     <boundary></boundary>
                 </tab>
                 <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
@@ -80,7 +80,7 @@
             </tabset>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 col" id="rightPane">
         <div class="jumbotron">
             <tabset class="tabs"  ng-controller="datasetCtrl">
                 <tab heading="Data Set">
