@@ -6,18 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="resources/lib/vendor/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="resources/lib/style.css">
+    <link rel="stylesheet" type="text/css" href="resources/lib/vendor/bootstrap-theme.css">
     <script src="resources/lib/vendor/angular.js"></script>
     <script src="resources/lib/app.js"></script>
-    <!---controllers --> 
+    <!---controllers -->
     <script src="resources/lib/controllers/boundaryCtrl.js"></script>
     <script src="resources/lib/controllers/datasetCtrl.js"></script>
     <script src="resources/lib/controllers/tabCtrl.js"></script>
     <script src="resources/lib/controllers/sliderCtrl.js"></script>
-    <!---directives --> 
+    <!---directives -->
     <script src="resources/lib/directives/boundary.js"></script>
     <script src="resources/lib/directives/dataplane.js"></script>
     <script src="resources/lib/directives/stringToNumber.js"></script>
-    <!---services --> 
+    <!---services -->
     <script src="resources/lib/services/updateBoundaryGraph.js"></script>
     <script src="resources/lib/services/getConstLiers.js"></script>
     <script src="resources/lib/services/densityMatrix.js"></script>
@@ -29,7 +30,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -49,7 +50,6 @@
         </div>
     </div>
 </nav>
-
 <div class="container-fluid" id="content">
     <div class="col-md-6" id="leftPane">
         <div class="jumbotron" ng-controller="TabCtrl">
