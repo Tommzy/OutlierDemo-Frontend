@@ -4,11 +4,10 @@
     <title>ONION</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <!-- <link rel="stylesheet" href="resources/lib/vendor/bootstrap.min.css"/> -->
-    <!-- <link rel="stylesheet" href="resources/lib/vendor/bootstrap-united.min.css"/> -->
-    <link rel="stylesheet" href="resources/lib/vendor/bootstrap-darkly.min.css"/>
-    <!-- <link rel="stylesheet" type="text/css" href="resources/lib/vendor/bootstrap-theme.css"> -->
-    <link rel="stylesheet" type="text/css" href="resources/lib/styles/style.css">
+    <link rel="stylesheet" href="resources/lib/vendor/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/lib/styles/style2/style2.css">
+    <link rel="stylesheet" type="text/css" href="resources/lib/styles/style2/sliders.css">
+    <link rel="stylesheet" type="text/css" href="resources/lib/styles/style2/navbar.css">
     <link rel="stylesheet" type="text/css" href="resources/lib/styles/graphs.css">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <script src="resources/lib/vendor/angular.js"></script>
@@ -34,7 +33,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse navbar-static-top">
+<nav class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -56,7 +55,7 @@
 </nav>
 <div class="container-fluid" id="content">
     <div class="col-md-6" id="leftPane">
-        <div class="jumbotron right paneContent" ng-controller="TabCtrl">
+        <div class=" right paneContent" ng-controller="TabCtrl">
             <tabset class="tabs" >
                 <tab heading="OD" ng-controller="sliderCtrl">
                     <div id="sliders">
@@ -74,9 +73,13 @@
                             <button type="submit" class="btn btn-primary"> Update</button>
                         </form>
                     </div>
+                
                 </tab>
                 <tab heading="PSE" id="boundary" ng-controller="boundaryCtrl">
                     <boundary></boundary>
+                    <form>
+                        <button class="btn btn-primary" ng-click="zoom()"> Zoom Boundary</button>
+                    </form>
                 </tab>
                 <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
                     {{tab.content}}
@@ -85,8 +88,8 @@
         </div>
     </div>
     <div class="col-md-6 col" id="rightPane">
-        <div class="jumbotron left paneContent">
-            <tabset class="tabs"  ng-controller="datasetCtrl">
+        <div class="left paneContent">
+            <tabset class="tabs" id="rightTabs" ng-controller="datasetCtrl">
                 <tab heading="Data Set">
                     <dataplane></dataplane>
                 </tab>

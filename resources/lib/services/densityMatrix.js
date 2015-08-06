@@ -28,7 +28,7 @@ angular.module('indexApp').factory('densityMatrix', ['$http','$rootScope', 'upda
 		var rValues;
 		if(args){
 			// $http.get('http://localhost:8080/kSortedList?kmin='+
-	  //                       args.kmin+'&kmax='+args.kmax+'&rmin='+args.rmin+'&rmax='+args.rmax);			
+	  //                       args[0][0]+'&kmax='+args[0][1]+'&rmin='+args[1][0]+'&rmax='+args[0][0]);			
 
 		}
 		else{
@@ -53,8 +53,8 @@ angular.module('indexApp').factory('densityMatrix', ['$http','$rootScope', 'upda
 				if (error) return console.warn(error);
 				// console.log(data);
 				rValues = parseDensityData(data);
-				console.log('rValues:');
-				console.log(rValues);
+				// console.log('rValues:');
+				// console.log(rValues);
 				drawAreas(rValues);
 					
 				});
@@ -63,8 +63,8 @@ angular.module('indexApp').factory('densityMatrix', ['$http','$rootScope', 'upda
 
 	function parseDensityData(data){
 		var rValues = {};
-		console.log('JSON kSortedList');
-		console.log(data);
+		// console.log('JSON kSortedList');
+		// console.log(data);
 		for(var key in data){
 			var kValue = key.slice(1)-1;
 			var rValuesTemp=[];
@@ -133,7 +133,7 @@ angular.module('indexApp').factory('densityMatrix', ['$http','$rootScope', 'upda
 				.attr('height',scales.y(maxGraphR-r))
 				.attr('fill', function(){
 					var density = bound.points/(bound.size+1);
-					console.log('k:'+ k+' r:'+r+' density:'+density+' size:'+bound.size);
+					// console.log('k:'+ k+' r:'+r+' density:'+density+' size:'+bound.size);
 					return colorScale(density);
 				})
 				.attr('stroke-width', '1')
@@ -142,12 +142,14 @@ angular.module('indexApp').factory('densityMatrix', ['$http','$rootScope', 'upda
 	        }
 	}
 
+	// $rootScope.$on('updatedBoundaryScales', createDensityMatrix);
+
 	return{
 		setData:function(data){
 			krArray=data;
 			createDensityMatrix();
 		},
 
-		drawAreas:drawAreas
+		createDensityMatrix:createDensityMatrix
 	};
 }]);

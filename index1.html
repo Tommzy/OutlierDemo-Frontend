@@ -4,11 +4,9 @@
     <title>ONION</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <!-- <link rel="stylesheet" href="resources/lib/vendor/bootstrap.min.css"/> -->
-    <!-- <link rel="stylesheet" href="resources/lib/vendor/bootstrap-united.min.css"/> -->
-    <link rel="stylesheet" href="resources/lib/vendor/bootstrap-darkly.min.css"/>
-    <!-- <link rel="stylesheet" type="text/css" href="resources/lib/vendor/bootstrap-theme.css"> -->
-    <link rel="stylesheet" type="text/css" href="resources/lib/styles/style.css">
+    <link rel="stylesheet" href="resources/lib/vendor/bootstrap-united.min.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/lib/styles/style1/style1.css">
+    <link rel="stylesheet" type="text/css" href="resources/lib/styles/style1/sliders.css">
     <link rel="stylesheet" type="text/css" href="resources/lib/styles/graphs.css">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <script src="resources/lib/vendor/angular.js"></script>
@@ -34,7 +32,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse navbar-static-top">
+<nav class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -56,7 +54,7 @@
 </nav>
 <div class="container-fluid" id="content">
     <div class="col-md-6" id="leftPane">
-        <div class="jumbotron right paneContent" ng-controller="TabCtrl">
+        <div class="right paneContent" ng-controller="TabCtrl">
             <tabset class="tabs" >
                 <tab heading="OD" ng-controller="sliderCtrl">
                     <div id="sliders">
@@ -85,7 +83,7 @@
         </div>
     </div>
     <div class="col-md-6 col" id="rightPane">
-        <div class="jumbotron left paneContent">
+        <div class="left paneContent">
             <tabset class="tabs"  ng-controller="datasetCtrl">
                 <tab heading="Data Set">
                     <dataplane></dataplane>

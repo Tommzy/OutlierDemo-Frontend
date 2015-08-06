@@ -16,11 +16,27 @@ angular.module('indexApp').directive('boundary',
             setParameters();
             plotGraph();
 
+            scope.$on('updatedBoundaryScales',function(){
+               var scales = updateBoundaryGraph.getScales();
+               x = scales.x;
+               y = scales.y;
+               xAxis.scale(x);
+               yAxis.scale(y);
+
+               d3.select('.boundary.x.axis')
+                .call(xAxis);
+               d3.select('.boundary.y.axis')
+                .call(yAxis);
+
+                densityMatrix.createDensityMatrix();
+            });
+
             function setParameters(){
                 // magins and dimensions of the svg
-                margin = {top: 20, right: 20, bottom: 30, left: 40};
-                width = 500 - margin.left - margin.right;
-                height = 500 - margin.top - margin.bottom;
+                var paneDimensions= d3.select('.left.paneContent').node().getBoundingClientRect();
+                margin = {top: 20, right: 40, bottom: 40, left: 40};
+                width = paneDimensions.width - margin.left - margin.right;
+                height = paneDimensions.height- 42 - margin.top - margin.bottom;
 
                 // Set the ranges
                 x = d3.scale.linear().range([0, width]);
@@ -45,14 +61,20 @@ angular.module('indexApp').directive('boundary',
                     .on("drag", dragmove);
 
                 // Adds the svg canvas
-                svg = d3.select("boundary")
-                    .insert("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
+                svg = d3.select(element[0])
+                    .append("div")
+                    .classed("svg-container", true) //container class to make it responsive
+                    .append("svg")
+                    // .attr("preserveAspectRatio", "xMinYMin meet")
+                    // .attr("viewBox", "0 0 "+ paneDimensions.width +' '+ paneDimensions.height)
+                    .attr("viewBox", "0 0 "+ (width + margin.left + margin.right)+
+                        ' '+ (height + margin.top + margin.bottom))
+                    .classed("svg-content-responsive", true)
                     .append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                     .classed('boundaryGraph',true)
-                    .call(drag);
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                    .call(drag)
+                    .style("pointer-events", "all");
                     // .call(zoom);
 
                 // creates graph backdrop
@@ -62,7 +84,6 @@ angular.module('indexApp').directive('boundary',
                     .attr("height", height)
                     .attr('fill','#ddd')
                     .attr('stroke','black')
-                    .style("pointer-events", "all")
                     ;
 
 
@@ -161,17 +182,17 @@ angular.module('indexApp').directive('boundary',
                 if(shiftDown){}
                 else{
                     var mousePoint= d3.mouse(this);
-                    console.log(mousePoint);
+                    // console.log(mousePoint);
                     mousePoint[0] = Math.max(0, Math.min(mousePoint[0], width));
                     mousePoint[1] = Math.max(0, Math.min(mousePoint[1], height));
                     // console.log(mousePoint);
                     selection.point2=mousePoint;
 
                     selectionRect
-                        .attr('x', d3.min([selection.point1[0],selection.point2[0]]).toString())
-                        .attr('y', d3.min([selection.point1[1],selection.point2[1]]).toString())
-                        .attr('width', Math.abs((selection.point2[0]-selection.point1[0])).toString())
-                        .attr('height',Math.abs((selection.point2[1]-selection.point1[1])).toString());
+                        .attr('x', d3.min([selection.point1[0],selection.point2[0]]))
+                        .attr('y', d3.min([selection.point1[1],selection.point2[1]]))
+                        .attr('width', Math.abs((selection.point2[0]-selection.point1[0])))
+                        .attr('height',Math.abs((selection.point2[1]-selection.point1[1])));
 
                     // console.log(selection);
                 }
@@ -185,7 +206,6 @@ angular.module('indexApp').directive('boundary',
                 // console.log(x);
                 // console.log(y);
                 updateBoundaryGraph.setScales(x,y);
-                updateBoundaryGraph.update();
             }
 
             // creates axis
@@ -196,21 +216,21 @@ angular.module('indexApp').directive('boundary',
 
                 // Add the X Axis
                 svg.append("g")
-                    .attr("class", "x axis")
+                    .attr("class", "boundary x axis")
                     .attr("transform", "translate(0," + height + ")")
                     .call(xAxis);
 
                 // Add the Y Axis
                 svg.append("g")
-                    .attr("class", "y axis")
+                    .attr("class", "boundary y axis")
                     .call(yAxis);
 
                 // X axis label
                 svg.append("text")
                     .attr("class", "x label")
                     .attr("text-anchor", "end")
-                    .attr("x", width - 6)
-                    .attr("y", height + 30)
+                    .attr("x", width - 30)
+                    .attr("y", height + 20)
                     .text("k value");
 
                 // Y axis label

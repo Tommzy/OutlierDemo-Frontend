@@ -3,12 +3,26 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window','updat
 	/**zooms the boundary graph to the selected area 
 	 */
     $scope.zoom = function(){
-        console.log('ZOOM');
+
+        var scales= updateBoundaryGraph.getScales();
+        var boundaryX=scales.x;
+        var boundaryY=scales.y;
+
+        // console.log(scales);
+
+        // console.log('ZOOM');
         var selectionRect = d3.selectAll('.selectionRect');
         var minx = Number(selectionRect.attr('x'));
         var miny = Number(selectionRect.attr('y'));
         var maxx = Number(minx) + Number(selectionRect.attr('width'));
         var maxy = Number(miny) + Number(selectionRect.attr('height'));
+
+        selectionRect
+            .attr('x',0)
+            .attr('y',0)
+            .attr('width',0)
+            .attr('height',0);
+
         console.log([minx,miny,maxx,maxy]);
 
         minx = Math.round(boundaryX.invert(minx));
@@ -20,8 +34,10 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window','updat
         maxy=x;
         console.log([minx,maxx,miny,maxy]);
 
-        // boundaryX.domain([minx,maxx]);
-        // boundaryY.domain([miny,maxy]);
+        boundaryX.domain([minx,maxx]);
+        boundaryY.domain([miny,maxy]);
+
+        updateBoundaryGraph.setScales(boundaryX,boundaryY);
 
         // svg.select(".x.axis").call(xAxis);
         // svg.select(".y.axis").call(yAxis);
@@ -45,6 +61,7 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window','updat
      * @param  {object} args - aruments passed by event
      */
     function drawBoundaries(event, args){
+        console.log('drawingBoundaries');
     	var line = args.line;
     	var domain = args.domain;
     	var colors = args.colors;

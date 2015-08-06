@@ -4,10 +4,11 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
          * Created by Tommzy on 7/7/2015.
          */
         var data = scope.data;
-        var margin = {top: 20, right: 20, bottom: 30, left: 40},
-            width = 500 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
-
+        var paneDimensions= d3.select('.right.paneContent').node().getBoundingClientRect();
+        var margin = {top: 20, right: 40, bottom: 40, left: 40},
+            width = paneDimensions.width - margin.left - margin.right,
+            height = paneDimensions.height- 42 - margin.top - margin.bottom;
+            // console.log(paneDimensions);
         /*
          * value accessor - returns the value to encode for a given data object.
          * scale - maps value to a visual display encoding, such as a pixel position.
@@ -15,7 +16,7 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
          * axis - sets up axis
          */
         // setup x
-        var xValue = function(d) { return d.point.lat;}, // data -> value
+            var xValue = function(d) { return d.point.lat;}, // data -> value
             xScale = d3.scale.linear().range([0, width]), // value -> display
             xMap = function(d) { return xScale(xValue(d));}, // data -> display
             xAxis = d3.svg.axis().scale(xScale).orient("bottom")
@@ -57,11 +58,17 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
             color = d3.scale.category10();
 
         // add the graph svg to the body of the webpage
-        var svg = d3.select(element[0]).append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+        var svg = d3.select(element[0])
+            .append("div")
+            .classed("svg-container", true) //container class to make it responsive
+            .append("svg")
+            // .attr("preserveAspectRatio", "xMinYMin meet")
+            // .attr("viewBox", "0 0 "+ paneDimensions.width +' '+ paneDimensions.height)
+            .attr("viewBox", "0 0 "+ (width + margin.left + margin.right)+
+                ' '+ (height + margin.top + margin.bottom))
+            .classed("svg-content-responsive", true)
             .append("g")
-            .classed('boundary',true)
+            .classed('dataset',true)
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(zoom);
 
@@ -84,6 +91,8 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
         // add the tooltip area to the webpage
         var tooltip = d3.select(element[0]).append("div")
             .attr("class", "tooltip")
+            .style("left", 0 + "px")
+            .style("top", 0 + "px")
             .style("opacity", 0);
 
         // load data
@@ -110,11 +119,15 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
                 .attr("transform", "translate(0," + height + ")")
                 .call(xAxis)
                 .append("text")
-                .attr("class", "label")
-                .attr("x", width -6)
-                .attr("y", -6)
-                .style("text-anchor", "end")
-                .text("latittude");
+                .attr("class", "label");
+                
+            // X axis label
+            svg.append("text")
+                .attr("class", "x label")
+                .attr("text-anchor", "end")
+                .attr("x", width - 30)
+                .attr("y", height + 20)
+                .text("k value");
 
             // y-axis
             svg.append("g")
@@ -122,12 +135,18 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
                 .call(yAxis)
                 .append("text")
                 .attr("class", "label")
+                .attr("transform", "rotate(-90)");
+
+                
+            // Y axis label
+            svg.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "end")
+                .attr("y", -40)
+                .attr("x", 0)
+                .attr("dy", ".75em")
                 .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("x", -6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("longitude");
+                .text("r value");
 
             // draw dots
             svg.selectAll(".dot")
@@ -144,8 +163,8 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", 1.4);
-                    tooltip.html("ID: "+ d.point.id + "<br/> (" + xValue(d)
-                        + ", " + yValue(d) + ")")
+                    tooltip.html("ID: "+ d.point.id + "<br/> (" + xValue(d)+
+                        ", " + yValue(d) + ")")
                         .style("left", (d3.event.layerX + 5) + "px")
                         .style("top", (d3.event.layerY - 28) + "px");
                 })

@@ -5,23 +5,8 @@ angular.module('indexApp').factory('updateBoundaryGraph', ['$rootScope', functio
 
     //clears the svg canvas
     var boundaryX,boundaryY,boundarySet=false;
-    
-    return{
-    	// sets the x and y scales for the boundary graph to the inputs x and y
-    	setScales : function(x,y){
-    		console.log('scales set');
-    		boundaryX = x;
-    		boundaryY = y;
-    		boundarySet=true;
-    	},
 
-    	getScales :function(){
-    		return {boundarySet:boundarySet,x:boundaryX, y:boundaryY};
-    	},
-
-
-    	// sets up the boundaryPoints array and broadcasts the updateBoundary event on the root scope
-    	update: function(){
+     function update(){
 		    var boundaryGraph =d3.select('.boundaryGraph');
 	        var selectedPoints = d3.selectAll('.selected');
 	        var boundaryPoints = [];
@@ -56,7 +41,28 @@ angular.module('indexApp').factory('updateBoundaryGraph', ['$rootScope', functio
 	            console.log(domain); 
 	            console.log('printed: ' +selectedPoints.size() +' points');
 	        }
+    	}
+    
+    return{
+    	// sets the x and y scales for the boundary graph to the inputs x and y
+    	setScales : function(x,y){
+    		console.log('scales set');
+    		boundaryX = x;
+    		boundaryY = y;
+    		boundarySet=true;
+			
+			$rootScope.$broadcast('updatedBoundaryScales'); // update axis, upgradebackground
+
+			update();
     	},
+
+    	getScales :function(){
+    		return {boundarySet:boundarySet,x:boundaryX, y:boundaryY};
+    	},
+
+
+    	// sets up the boundaryPoints array and broadcasts the updateBoundary event on the root scope
+    	update:update,
 
     	/**
     	 * @param {array} newDomain - the domain to use
