@@ -133,7 +133,7 @@ angular.module('indexApp').factory('densityMatrix', ['$http','$rootScope', 'upda
 				.attr('height',scales.y(maxGraphR-r))
 				.attr('fill', function(){
 					var density = bound.points/(bound.size+1);
-					console.log('k:'+ k+' r:'+r+' density:'+density+' size:'+bound.size);
+					//console.log('k:'+ k+' r:'+r+' density:'+density+' size:'+bound.size);
 					return colorScale(density);
 				})
 				.attr('stroke-width', '1')

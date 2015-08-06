@@ -67,6 +67,14 @@ body {
     fill:purple;
 }
 
+body{
+    background-image: url("wild_oliva.png");
+    background-size: 27px 15px;
+}
+
+nav{
+    background-image: url("Grey-Jean-White-Seamless-Patterns-For-Website-Backgrounds.jpg");
+}
 
 html, body{
     height: 100%;
@@ -81,5 +89,6 @@ html, body{
 }
 
 .jumbotron{
+    background-image: url("subtlenet2.png");
     height: 100%;
 }
