@@ -26,7 +26,8 @@ angular.module('indexApp').directive('legend', function(){
             .attr("class", "legend")
             .attr("transform", function (d, i) {
                 console.log(i);
-                return "translate(50," + i * 20 + ")";
+                return "translate(90," + i * 20 + ")";
+                //return "translate(" + i * 20 + ",90)";
             });
 
         // draw legend colored rectangles
@@ -41,6 +42,7 @@ angular.module('indexApp').directive('legend', function(){
         legend.append("text")
             .attr("dy", "1em")
             .style("text-anchor", "end")
+            .style("font-size", "12")
             .text(function (d) {
                 return d.actual_name;
             })
