@@ -4,6 +4,7 @@ angular.module('indexApp').factory('updateBoundaryGraph', ['$rootScope', functio
     var colors = d3.scale.category20().range();
 
     //clears the svg canvas
+    var defaultX,defaultY;
     var boundaryX,boundaryY,boundarySet=false;
 
      function update(){
@@ -38,9 +39,10 @@ angular.module('indexApp').factory('updateBoundaryGraph', ['$rootScope', functio
 	            // broadcasts the updateBoundary event
                 $rootScope.$broadcast('updateBoundary', {line:line,domain:domain, colors:colors, boundaryPoints:boundaryPoints});
 
-	            console.log(domain); 
+	            // console.log(domain); 
 	            console.log('printed: ' +selectedPoints.size() +' points');
 	        }
+	        $rootScope.$broadcast('updateDeselected',{domain:domain});
     	}
     
     return{
@@ -49,6 +51,11 @@ angular.module('indexApp').factory('updateBoundaryGraph', ['$rootScope', functio
     		console.log('scales set');
     		boundaryX = x;
     		boundaryY = y;
+    		if(!boundarySet){
+    			console.log([boundaryX,boundaryY]);
+    			defaultX = boundaryX.domain();
+    			defaultY = boundaryY.domain();
+    		}
     		boundarySet=true;
 			
 			$rootScope.$broadcast('updatedBoundaryScales'); // update axis, upgradebackground
@@ -58,6 +65,10 @@ angular.module('indexApp').factory('updateBoundaryGraph', ['$rootScope', functio
 
     	getScales :function(){
     		return {boundarySet:boundarySet,x:boundaryX, y:boundaryY};
+    	},
+
+    	getDefaultDomain : function(){
+    		return {x:defaultX, y:defaultY};
     	},
 
 

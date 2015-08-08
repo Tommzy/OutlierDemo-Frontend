@@ -28,6 +28,14 @@
 
 }
 
+.densityRectangle{
+    opacity: 0;
+}
+
+.densityRectangle.visible{
+    opacity: 1;
+}
+
 .dataPoint{
     fill:#1F77B4;
 }

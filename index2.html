@@ -79,6 +79,9 @@
                     <boundary></boundary>
                     <form>
                         <button class="btn btn-primary" ng-click="zoom()"> Zoom Boundary</button>
+                        <button class="btn btn-primary" ng-click="resetZoom()"> Reset Zoom</button>
+                        <button class="btn btn-primary" ng-click="resetBoundaries()"> Reset Boundaries</button>
+                        <button class="btn btn-primary" ng-click="toggleBackground()"> Toggle Background</button>
                     </form>
                 </tab>
                 <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">

@@ -43,6 +43,26 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window','updat
         // svg.select(".y.axis").call(yAxis);
     };
 
+    // resets the zoom in the boundary graph
+    $scope.resetZoom = function(){
+        var domain = updateBoundaryGraph.getDefaultDomain();
+        var scales= updateBoundaryGraph.getScales();
+
+        var boundaryX=scales.x.domain(domain.x);
+        var boundaryY=scales.y.domain(domain.y);
+
+        updateBoundaryGraph.setScales(boundaryX,boundaryY);
+    };
+
+    $scope.resetBoundaries = function(){
+        console.log('hi');
+        d3.selectAll('.selected')
+            .classed('selected',false)
+            .classed('deselected',true);
+
+        updateBoundaryGraph.update();
+    };
+
     /** resets the selection in the boundary graph
      */
     $scope.resetBSelection =function(){
@@ -98,6 +118,17 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window','updat
 	        .attr("clip-path", "url(#clip2)")
 	        .attr("d", line);
     }
+
+    $scope.toggleBackground = function(){
+        console.log('hello');
+
+        var densityRectangles = d3.select('.boundaryBackground');
+        densityRectangles.attr('opacity',(1-densityRectangles.attr('opacity')));
+
+        // var  rectangles=d3.selectAll('.densityRectangle');
+        // rectangles.classed('visible',!rectangles.classed('visible'));
+        console.log('done');
+    };
 
     // listens for the updateBoundary event in $scope
     $scope.$on('updateBoundary', drawBoundaries);

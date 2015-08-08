@@ -138,6 +138,7 @@ angular.module('indexApp').factory('densityMatrix', ['$http','$rootScope', 'upda
 				})
 				.attr('stroke-width', '1')
 				.attr('stroke','black')
+				.attr('class','densityRectangle visible')
 	            .style("pointer-events", "all");
 	        }
 	}
