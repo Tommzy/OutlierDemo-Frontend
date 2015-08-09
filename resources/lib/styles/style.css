@@ -4,16 +4,8 @@ html,body {
     height:100%;
 }
 
-#content{
-    height: calc(100% - 71px);
-}
-
-#leftPane{
-    height:100%;
-}
-
-#rightPane{
-    height:100%;
+.full{
+	height:100%;
 }
 
 @media screen  {.jumbotron{
@@ -22,3 +14,22 @@ html,body {
     margin-bottom: 20px
 }}
 
+#content{
+    height: calc(100% - 71px);
+}
+
+#leftPane{
+    float:left;
+    height:100%;
+}
+
+#rightPane{
+    float:right;
+    height:100%;
+}
+.paneContent{
+    height: calc(100% - 20px);
+    background-color:gray;
+    border-radius: 1em;
+    padding: 0 15px 0 15px;
+}

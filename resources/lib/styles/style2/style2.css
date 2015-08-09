@@ -1,4 +1,4 @@
-html,body {
+#585ECEhtml,body {
     font-size: 15px;
     /*font-family: 'Roboto', Arial, sans-serif;*/
     height:100%;
@@ -27,7 +27,7 @@ html,body {
 .paneContent{
 	color:white;
     height: calc(100% - 20px);
-    background-color:#585ECE;
+    background-color: #585ECE;
     border-radius: 1em;
     padding: 0 15px 0 15px;
 }

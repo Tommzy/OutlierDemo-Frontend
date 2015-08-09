@@ -14,7 +14,7 @@ angular.module('indexApp').directive('legend', function(){
                 class_name: 'constIn', actual_name: 'Constant Inlier'
             }
         ];
-        console.log("started creating legend")
+        // console.log("started creating legend");
         var svg = d3.select('legend').append('svg')
             .attr("width", 300)
             .attr("height", function(){
@@ -25,7 +25,7 @@ angular.module('indexApp').directive('legend', function(){
             .enter().append("g")
             .attr("class", "legend")
             .attr("transform", function (d, i) {
-                console.log(i);
+                // console.log(i);
                 return "translate(90," + i * 20 + ")";
                 //return "translate(" + i * 20 + ",90)";
             });
@@ -45,7 +45,7 @@ angular.module('indexApp').directive('legend', function(){
             .style("font-size", "12")
             .text(function (d) {
                 return d.actual_name;
-            })
+            });
     }
     return{
         link: link

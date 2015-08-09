@@ -55,7 +55,7 @@
 </nav>
 <div class="container-fluid" id="content">
     <div class="col-md-6" id="leftPane">
-        <div class=" right paneContent" ng-controller="TabCtrl">
+        <div class=" left paneContent" ng-controller="TabCtrl">
             <tabset class="tabs" >
                 <tab heading="OD" ng-controller="sliderCtrl">
                     <div id="sliders">
@@ -90,8 +90,8 @@
             </tabset>
         </div>
     </div>
-    <div class="col-md-6 col" id="rightPane">
-        <div class="left paneContent">
+    <div class="col-md-6" id="rightPane">
+        <div class="right paneContent">
             <tabset class="tabs" id="rightTabs" ng-controller="datasetCtrl">
                 <tab heading="Data Set">
                     <dataplane></dataplane>
