@@ -72,6 +72,7 @@
     fill:purple;
 }
 
+<<<<<<< HEAD:resources/lib/styles/graphs.css
  .paneContent>.tabs, .tab-pane{
     height:100%;
 }
@@ -95,4 +96,21 @@
     width:100%;
     left: 0;
     height: calc(100% - 10px);
+=======
+
+html, body{
+    height: 100%;
+}
+
+.container-fluid{
+    height: 100%;
+}
+
+.pane{
+    height: 100%;
+}
+
+.jumbotron{
+    height: 100%;
+>>>>>>> origin/Theme-Demo:resources/lib/style.css
 }

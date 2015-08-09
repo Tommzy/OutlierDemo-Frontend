@@ -23,7 +23,7 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
                 .innerTickSize(-height);
 
         // setup y
-            var yValue = function(d) { return d.point.lon;}, // data -> value
+        var yValue = function(d) { return d.point.lon;}, // data -> value
             yScale = d3.scale.linear().range([height, 0]), // value -> display
             yMap = function(d) { return yScale(yValue(d));}, // data -> display
             yAxis = d3.svg.axis().scale(yScale).orient("left")
@@ -186,12 +186,12 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
                 });
 
 
-            // draw legend
-            var legend = svg.selectAll(".legend")
-                .data(color.domain())
-                .enter().append("g")
-                .attr("class", "legend")
-                .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+            //// draw legend
+            //var legend = svg.selectAll(".legend")
+            //    .data(color.domain())
+            //    .enter().append("g")
+            //    .attr("class", "legend")
+            //    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
             //// draw legend colored rectangles
             //legend.append("rect")
@@ -208,6 +208,41 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
             //    .attr("dy", ".35em")
             //    .style("text-anchor", "end")
             //    .text(function(d) { return d;})
+            //var legends=[
+            //    {
+            //        class_name: 'outlier', actual_name: 'Outlier'
+            //    },
+            //    {
+            //        class_name: 'dataPoint', actual_name: 'Inlier'
+            //    },
+            //    {
+            //        class_name: 'constOut', actual_name: 'Constant Outlier'
+            //    },{
+            //        class_name: 'constIn', actual_name: 'Constant Inlier'
+            //    }
+            //];
+            //var legend = svg.selectAll(".legend")
+            //    .data(legends)
+            //    .enter().append("g")
+            //    .attr("class", "legend")
+            //    .attr("transform", function(d, i) { return "translate(" + i * 20 + ",0)"; });
+            //
+            //// draw legend colored rectangles
+            //legend.append("rect")
+            //    .attr("x", width+15)
+            //    .attr("width", 18)
+            //    .attr("height", 18)
+            //    .attr("class",function(d){
+            //        return d.class_name;
+            //    });
+            //
+            //// draw legend text
+            //legend.append("text")
+            //    .attr("x", width +20)
+            //    .attr("y", 9)
+            //    .attr("dy", ".35em")
+            //    .style("text-anchor", "end")
+            //    .text(function(d) { return d.actual_name;})
 
 
         });
