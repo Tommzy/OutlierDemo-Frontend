@@ -29,28 +29,35 @@ angular.module('indexApp').factory('densityMatrix', ['$http','$rootScope', 'upda
 		if(args){
 			$http.get('http://localhost:8080/kSortedList?kmin='+
                        args[0][0]+'&kmax='+args[0][1]+'&rmin='+args[1][0]+'&rmax='+args[0][0])
-			.success(function(){
+			.success(function(data){
 				rValues = parseDensityData(data);
 				drawAreas(rValues);
 			})
-			
-			.error();			
+			.error(d3.json("resources/lib/sampleJSONs/krvalue_whole_plane_json_sample.json", function(error, data) {
+				if (error) return console.warn(error);
+				rValues = parseDensityData(data);
+				// drawAreas(rValues);
+				// console.log(data);
+				// console.log('rValues:');
+				// console.log(rValues);
+			}));			
 
 		}
 		else{
 			$http.get('http://localhost:8080/kSortedList')
-        	.success(function(){
+        	.success(function(data){
 				rValues = parseDensityData(data);
 				drawAreas(rValues);
         	})
-        	.error();
-	        // d3.json("resources/lib/sampleJSONs/krvalue_whole_plane_json_sample.json", function(error, data) {
-				// if (error) return console.warn(error);
+        	.error(
+	        d3.json("resources/lib/sampleJSONs/krvalue_whole_plane_json_sample.json", function(error, data) {
+				if (error) return console.warn(error);
+				rValues = parseDensityData(data);
+				drawAreas(rValues);
 				// console.log(data);
 				// console.log('rValues:');
-				// console.log(rValues);
-					
-			// });
+				// console.log(rValues);					
+			}));
 			}
 	}
 

@@ -18,7 +18,7 @@ angular.module('indexApp').directive('legend', function(){
         var svg = d3.select('legend').append('svg')
             .attr("width", 300)
             .attr("height", function(){
-                return legends.length *20;
+                return legends.length/2 *20;
             });
         var legend = svg.selectAll(".legend")
             .data(legends)
@@ -26,7 +26,7 @@ angular.module('indexApp').directive('legend', function(){
             .attr("class", "legend")
             .attr("transform", function (d, i) {
                 // console.log(i);
-                return "translate(90," + i * 20 + ")";
+                return "translate("+(90+ Math.floor(i/2)*120)+ "," + i%2*20 + ")";
                 //return "translate(" + i * 20 + ",90)";
             });
 
@@ -41,6 +41,7 @@ angular.module('indexApp').directive('legend', function(){
         // draw legend text
         legend.append("text")
             .attr("dy", "1em")
+            .attr('dx', "-5px")
             .style("text-anchor", "end")
             .style("font-size", "12")
             .text(function (d) {
