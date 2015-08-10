@@ -1,4 +1,6 @@
-angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window','updateBoundaryGraph',function($scope,$window,updateBoundaryGraph){
+angular.module('indexApp').controller('boundaryCtrl',
+    ['$scope', '$window','updateBoundaryGraph', 'densityMatrix',
+    function($scope,$window,updateBoundaryGraph, densityMatrix){
 
 	/**zooms the boundary graph to the selected area 
 	 */
@@ -39,6 +41,8 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window','updat
 
         updateBoundaryGraph.setScales(boundaryX,boundaryY);
 
+        densityMatrix.createDensityMatrix([minx,maxx,miny,maxy]);
+
         // svg.select(".x.axis").call(xAxis);
         // svg.select(".y.axis").call(yAxis);
     };
@@ -52,6 +56,8 @@ angular.module('indexApp').controller('boundaryCtrl',['$scope', '$window','updat
         var boundaryY=scales.y.domain(domain.y);
 
         updateBoundaryGraph.setScales(boundaryX,boundaryY);
+
+        densityMatrix();
     };
 
     $scope.resetBoundaries = function(){
