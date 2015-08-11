@@ -28,7 +28,7 @@ angular.module('indexApp').factory('densityMatrix',
 		// console.log(maxGraphR);
 		var rValues;
 		if(args){
-			$http.get('http://localhost:8080/kSortedList?kmin='+
+			$http.get('http://localhost:8080/getKSortedListRange?kmin='+
                        args[0][0]+'&kmax='+args[0][1]+'&rmin='+args[1][0]+'&rmax='+args[0][0])
 			.success(function(data){
 				rValues = parseDensityData(data);
@@ -45,13 +45,12 @@ angular.module('indexApp').factory('densityMatrix',
 
 		}
 		else{
-			$http.get('http://localhost:8080/kSortedList')
+			$http.get('http://localhost:8080/getKSortedList')
         	.success(function(data){
 				rValues = parseDensityData(data);
 				drawAreas(rValues);
         	})
-        	.error(
-	        d3.json("resources/lib/sampleJSONs/krvalue_whole_plane_json_sample.json", function(error, data) {
+        	.error(d3.json("resources/lib/sampleJSONs/krvalue_whole_plane_json_sample.json", function(error, data) {
 				if (error) return console.warn(error);
 				rValues = parseDensityData(data);
 				drawAreas(rValues);

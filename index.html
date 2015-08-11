@@ -2,14 +2,14 @@
 <html lang="en" ng-app="indexApp">
 <head>
     <title>ONION</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="resources/lib/vendor/bootstrap.min.css"/>
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <link rel="stylesheet" href="resources/lib/vendor/bootstrap.min.css"></link>
     <!-- <link rel="stylesheet" href="resources/lib/vendor/bootstrap-united.min.css"/> -->
     <!-- <link rel="stylesheet" href="resources/lib/vendor/bootstrap-darkly.min.css"/> -->
-    <link rel="stylesheet" type="text/css" href="resources/lib/styles/style.css">
-    <link rel="stylesheet" type="text/css" href="resources/lib/styles/graphs.css"><!-- 
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'> -->
+    <link rel="stylesheet" type="text/css" href="resources/lib/styles/style.css"></link>
+    <link rel="stylesheet" type="text/css" href="resources/lib/styles/graphs.css"></link>
+    <!-- <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'> -->
     <script src="resources/lib/vendor/angular.js"></script>
     <script src="resources/lib/app.js"></script>
     <!---controllers -->
@@ -61,7 +61,7 @@
                      popover-trigger="mouseenter" active="pane.active">
                     {{active()}}
                     <tab-heading>{{pane.title}}</tab-heading>
-                    <div ng-include=pane.content class="full"></div>
+                    <div ng-include="pane.content" class="full"></div>
                 </tab>
             </tabset>
         </div>

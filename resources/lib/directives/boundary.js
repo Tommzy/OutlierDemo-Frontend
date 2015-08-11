@@ -204,6 +204,15 @@ angular.module('indexApp').directive('boundary',
             }
         }
 
+        // creates axis, sets the scalese in updateBoundary service, and updates the boundaryGraph 
+        function plotGraph(){
+            createAxis();
+            // zoom.x(x).y(y);
+            // console.log('setting scales');
+            // console.log(x);
+            // console.log(y);
+            updateBoundaryGraph.setScales(x,y);
+        }
 
         // creates axis
         function createAxis(){
