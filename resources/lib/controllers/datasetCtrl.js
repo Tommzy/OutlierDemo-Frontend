@@ -1,14 +1,8 @@
-angular.module('indexApp').controller('datasetCtrl',['$scope', '$http', 'updateBoundaryGraph', function($scope,$http, updateBoundaryGraph){
+angular.module('indexApp').controller('datasetCtrl',
+    ['$scope', '$http', 'updateBoundaryGraph', function($scope,$http, updateBoundaryGraph){
 
 	//creates a listener for updateKR event
-	$scope.$on('redrawDataPoints', recolorDataPoints);
-
-
-	/** recolors the data points 
-	 * @param  event
-	 * @param  object
-	 */
-	function recolorDataPoints(event, args) {
+	$scope.$on('redrawDataPoints', function (event, args) {
 		var data= args.data;
 
         //reset current outliers
@@ -24,7 +18,7 @@ angular.module('indexApp').controller('datasetCtrl',['$scope', '$http', 'updateB
             }
         });
 
-	}
+	});
 
 	// when updating the boundary removes the point from the color domain and resets the stroke color of the point 
 	$scope.$on('updateDeselected', function(event, args){

@@ -1,4 +1,6 @@
-angular.module('indexApp').factory('updateBoundaryGraph', ['$rootScope', function($rootScope){
+angular.module('indexApp').factory('updateBoundaryGraph', 
+    ['$rootScope', function($rootScope){
+        
 	var domain = [];
     for(var i = 0; i<20; i++)domain.push('');
     var colors = d3.scale.category20().range();

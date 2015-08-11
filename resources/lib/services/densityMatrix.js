@@ -1,4 +1,5 @@
-angular.module('indexApp').factory('densityMatrix', ['$http','$rootScope', 'updateBoundaryGraph', function($http,$rootScope,updateBoundaryGraph){
+angular.module('indexApp').factory('densityMatrix', 
+	['$http','$rootScope', 'updateBoundaryGraph', function($http,$rootScope,updateBoundaryGraph){
 
 	/**
 	 *  @var {array} krArray- array of kr values for all data points

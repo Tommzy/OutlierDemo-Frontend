@@ -1,19 +1,20 @@
 angular.module('indexApp').directive('legend', function(){
+    return{
+        link: link,
+        restrict: 'E',
+        scope: { data: '=' }
+    };
+
     function link(scope,element,attr) {
         var width = 300;
+        //legend items
         var legends = [
-            {
-                class_name: 'outlier', actual_name: 'Outlier'
-            },
-            {
-                class_name: 'dataPoint', actual_name: 'Inlier'
-            },
-            {
-                class_name: 'constOut', actual_name: 'Constant Outlier'
-            }, {
-                class_name: 'constIn', actual_name: 'Constant Inlier'
-            }
+            {class_name: 'outlier', actual_name: 'Outlier'},
+            {class_name: 'dataPoint', actual_name: 'Inlier'},
+            {class_name: 'constOut', actual_name: 'Constant Outlier'},
+            {class_name: 'constIn', actual_name: 'Constant Inlier'}
         ];
+
         // console.log("started creating legend");
         var svg = d3.select('legend').append('svg')
             .attr("width", 300)
@@ -48,8 +49,5 @@ angular.module('indexApp').directive('legend', function(){
                 return d.actual_name;
             });
     }
-    return{
-        link: link
-    };
 
 });

@@ -1,4 +1,12 @@
-angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','densityMatrix', function(updateBoundaryGraph,densityMatrix){
+angular.module('indexApp').directive('dataplane',
+    ['updateBoundaryGraph','densityMatrix', function(updateBoundaryGraph,densityMatrix){
+
+    return{
+        link: link,
+        restrict: 'E',
+        scope: { data: '=' }
+    };
+
     function link(scope,element,attr){
         /**
          * Created by Tommzy on 7/7/2015.
@@ -126,8 +134,8 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
                 .attr("class", "x label")
                 .attr("text-anchor", "end")
                 .attr("x", width - 30)
-                .attr("y", height + 20)
-                .text("k value");
+                .attr("y", height + 30)
+                .text("Longitude");
 
             // y-axis
             svg.append("g")
@@ -146,7 +154,7 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
                 .attr("x", 0)
                 .attr("dy", ".75em")
                 .attr("transform", "rotate(-90)")
-                .text("r value");
+                .text("Latitude");
 
             // draw dots
             svg.selectAll(".dot")
@@ -188,9 +196,4 @@ angular.module('indexApp').directive('dataplane',['updateBoundaryGraph','density
         });
 
     }
-    return{
-        link: link,
-        restrict: 'E',
-        scope: { data: '=' }
-    };
 }]);

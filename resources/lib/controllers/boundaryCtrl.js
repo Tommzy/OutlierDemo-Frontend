@@ -1,6 +1,5 @@
 angular.module('indexApp').controller('boundaryCtrl',
-    ['$scope', '$window','updateBoundaryGraph', 'densityMatrix',
-    function($scope,$window,updateBoundaryGraph, densityMatrix){
+    ['$scope', '$window','updateBoundaryGraph', 'densityMatrix', function($scope,$window,updateBoundaryGraph, densityMatrix){
 
 	/**zooms the boundary graph to the selected area 
 	 */
