@@ -65,10 +65,12 @@ angular.module('indexApp').factory('updateBoundaryGraph',
 			update();
     	},
 
+        // returns the scales
     	getScales :function(){
     		return {boundarySet:boundarySet,x:boundaryX, y:boundaryY};
     	},
 
+        // returns the default domain
     	getDefaultDomain : function(){
     		return {x:defaultX, y:defaultY};
     	},
@@ -77,9 +79,7 @@ angular.module('indexApp').factory('updateBoundaryGraph',
     	// sets up the boundaryPoints array and broadcasts the updateBoundary event on the root scope
     	update:update,
 
-    	/**
-    	 * @param {array} newDomain - the domain to use
-    	 */
+    	//@param {array} newDomain - the domain to use
     	setDomain: function(newDomain){
     		domain = newDomain;
     	}
