@@ -33,13 +33,13 @@ angular.module('indexApp').factory('densityMatrix',
 			$http.get('http://localhost:8080/getKSortedListRange?kmin='+
                        (args[0]+1)+'&kmax='+args[1]+'&rmin='+args[2]+'&rmax='+args[3])
 			.success(function(data){
-				console.log(data);
-				
-				console.log(scales.x.range());
-				console.log(scales.y.range());
+					// console.log(data);
+					
+					// console.log(scales.x.range());
+					// console.log(scales.y.range());
 				
 				rValues = parseDensityData(data);
-				console.log(rValues);
+				// console.log(rValues);
 				drawAreas(rValues);
 			})
 			.error(
@@ -132,7 +132,7 @@ angular.module('indexApp').factory('densityMatrix',
 				.attr('stroke-width', '1')
 				.attr('stroke','black')
 				.attr('class','densityRectangle visible')
-				.classed('k'+width,true)
+				// .classed('k'+width,true)
 	            .style("pointer-events", "all");
 	        }
 	}
