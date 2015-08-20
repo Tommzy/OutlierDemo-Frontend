@@ -14,9 +14,9 @@ angular.module('indexApp').controller('datasetCtrl',
         data.forEach(function(element){
             var sPoint = d3.select('#id'+element.id.toString());
             if(sPoint){
-                console.log(sPoint.data()[0].point.id);
+                // console.log(sPoint.data()[0].point.id);
                 sPoint.classed('outlier', true);
-                console.log(sPoint.classed('outlier'));
+                // console.log(sPoint.classed('outlier'));
             }
         });
 

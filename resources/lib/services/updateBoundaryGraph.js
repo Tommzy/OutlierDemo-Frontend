@@ -54,7 +54,7 @@ angular.module('indexApp').factory('updateBoundaryGraph',
     		boundaryX = x;
     		boundaryY = y;
     		if(!boundarySet){
-    			console.log([boundaryX,boundaryY]);
+    			// console.log([boundaryX,boundaryY]);
     			defaultX = boundaryX.domain();
     			defaultY = boundaryY.domain();
     		}

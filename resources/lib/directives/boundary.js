@@ -1,6 +1,6 @@
 angular.module('indexApp').directive('boundary', 
-    ['$window', 'updateBoundaryGraph', 'getConstLiers', 'updateKR', 'densityMatrix',
-    function($window,updateBoundaryGraph, getConstLiers, updateKR,densityMatrix){
+    ['$window', 'updateBoundaryGraph', 'getConstLiers', 'updateKR',
+    function($window,updateBoundaryGraph, getConstLiers, updateKR){
     return{
         restrict:'E',
         link: link,
@@ -149,8 +149,6 @@ angular.module('indexApp').directive('boundary',
             .call(xAxis);
            d3.select('.boundary.y.axis')
             .call(yAxis);
-
-            densityMatrix.createDensityMatrix();
         });
 
         // creates interations with the boundary canvas

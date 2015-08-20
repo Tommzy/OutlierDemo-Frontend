@@ -12,7 +12,7 @@ angular.module('indexApp').factory('getConstLiers',['$http', function($http){
 	            var constOut =textConstData[0];
 	            var constIn=textConstData[1];
 	            //reset current constant outliers
-	            d3.select('.constOut')
+	            d3.select('.dataPoint.constOut')
 	                .classed('constOut',false);
 
 	            // console.log(constOut);
@@ -33,7 +33,7 @@ angular.module('indexApp').factory('getConstLiers',['$http', function($http){
 	            // console.log(constIn.length);
 
 	            // reset constIn
-	            d3.select('.constIn')
+	            d3.select('.dataPoint.constIn')
 	                .classed('constIn',false);
 
                 // sets constIn
@@ -50,6 +50,7 @@ angular.module('indexApp').factory('getConstLiers',['$http', function($http){
 	        })
 	        .error(function(data){
                 console.log("Fail getting constant liers data");
-	    }
-    };
+	    	});
+ 	   	}
+	}
 }]);
